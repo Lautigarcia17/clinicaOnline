@@ -36,7 +36,6 @@ export class RegisterPatientComponent implements OnInit {
     'password': ["",[Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
     'imgOne': ["",[Validators.required]],
     'imgTwo': ["",[Validators.required]],
-    // 'recaptcha' : ["",Validators.required],
 
   })
 

@@ -60,7 +60,7 @@ export default class LayoutComponent implements OnInit{
           this.router.navigate(['home']);
         })
       }else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire('Cancelled', 'Imagine you would follow', 'error');
+        Swal.fire('Cancelado', 'Imagine que seguirias', 'error');
       }
 
     });
