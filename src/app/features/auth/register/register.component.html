@@ -1,0 +1,30 @@
+<div class="content">
+    <div class="content-element">
+        <div class="inside-element" *ngIf="!stateRegister">    
+            <div class="name-for-profile" >
+                <h2 class="text-tooltip" *ngIf="showTooltip">{{textTooltip}}</h2>   
+                 
+            </div>
+            <button class="type-image" (click)="changeStatePatient()" (mouseover)="showName('Paciente')" (mouseleave)="hideName()"><img src="../../../../assets/patient.png" alt="patient" class="img-type"></button>
+            <button class="type-image" (click)="changeStateSpecialist()" (mouseover)="showName('Especialista')" (mouseleave)="hideName()"><img src="../../../../assets/specialist.png" alt="patient" class="img-type" ></button>
+            <button  class="type-image" *ngIf="globalData.getProfile() == 'administrator'" (click)="changeStateAdministrator()" (mouseover)="showName('Administrador')" (mouseleave)="hideName()"><img src="../../../../assets/administrator.jpg" alt="patient" class="img-type" ></button>
+            
+        </div>
+        
+        <div *ngIf="stateRegister">
+            <div class="back">
+                <button class="back" (click)="setStates()">Volver</button>
+            </div>
+            <div *ngIf="statePatient">
+                <app-register-patient></app-register-patient>
+            </div>
+            <div *ngIf="stateSpecialsit">
+                <app-register-specialist></app-register-specialist>
+            </div>
+            <div *ngIf="stateAdministrator">
+                <app-register-administrator></app-register-administrator>
+            </div>
+        </div>
+    </div>
+    
+</div>

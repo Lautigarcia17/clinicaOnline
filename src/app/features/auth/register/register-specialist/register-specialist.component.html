@@ -1,0 +1,113 @@
+<div class="container">
+    <div class="questionnaire">
+        <form [formGroup]="formUser" (ngSubmit)="register()">
+            <h1 class="name-profile">Especialista</h1>
+            <div class="row">
+                <div class="column">
+                    <div class="name">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" formControlName="name"/>
+                        <div class="validation-message" *ngIf="formUser.get('name')?.hasError('required')" [hidden]="formUser.get('name')?.pristine">Nombre es requerido</div>
+                        <div class="validation-message" *ngIf="formUser.get('name')?.hasError('pattern') && formUser.get('name')?.touched">Solo letras estan permitidas</div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="username">
+                        <label class="form-label" >Apellido</label>
+                        <input type="text" formControlName="surname"/>
+                        <div class="validation-message" *ngIf="formUser.get('surname')?.hasError('required')" [hidden]="formUser.get('surname')?.pristine">Apellido es requerido</div>
+                        <div class="validation-message" *ngIf="formUser.get('surname')?.hasError('pattern') && formUser.get('surname')?.touched">Solo letras estan permitidas</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <div class="age">
+                        <label class="form-label">Edad</label>
+                        <input type="number" formControlName="age" />
+                        <div class="validation-message" *ngIf="formUser.get('age')?.hasError('required')" [hidden]="formUser.get('age')?.pristine">Edad es requerida</div>
+                        <div class="validation-message" *ngIf="formUser.get('age')?.touched && formUser.get('age')?.hasError('ageMinMax')" [hidden]="formUser.get('age')?.pristine">Se requiere edad entre 18 y 99 años</div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="dni">
+                        <label class="form-label">Dni</label>
+                        <input type="number" formControlName="dni"/>
+                        <div class="validation-message" *ngIf="formUser.get('dni')?.hasError('required')" [hidden]="formUser.get('dni')?.pristine">Dni es requerido</div>
+                        <div class="validation-message" *ngIf="formUser.get('dni')?.touched && (formUser.get('dni')?.hasError('min') || formUser.get('dni')?.hasError('max'))" [hidden]="formUser.get('dni')?.pristine">Dni debe tener entre 7 y 8 numeros</div>
+                        <div class="validation-message" *ngIf="formUser.get('dni')?.touched && formUser.get('dni')?.hasError('dniAvailable')" [hidden]="formUser.get('dni')?.pristine">El dni ya fue registrado.</div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <div class="email">
+                        <label class="form-label">Mail</label>
+                        <input type="text"  formControlName="email" maxlength="25"/>
+                        <div class="validation-message" *ngIf="formUser.get('email')?.hasError('required')" [hidden]="formUser.get('email')?.pristine">Mail es requerido</div>
+                        <div class="validation-message" *ngIf="formUser.get('email')?.hasError('email')" [hidden]="formUser.get('email')?.pristine">Formato de mail invalido</div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="password">
+                        <label class="form-label">Contraseña</label>
+                        <input type="text" formControlName="password" maxlength="16"/>
+                        <div class="validation-message" *ngIf="formUser.get('password')?.hasError('required')" [hidden]="formUser.get('password')?.pristine">Contraseña es requerida</div>
+                        <div class="validation-message" *ngIf="formUser.get('password')?.touched && (formUser.get('password')?.hasError('minlength') || formUser.get('password')?.hasError('maxlength'))" [hidden]="formUser.get('password')?.pristine">Contraseña debe ser entre 8 y 16 caracteres</div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <div class="specialty">
+                        <label class="form-label">Especialidad</label>
+                        <br>
+                        <select formControlName="specialty" name="specialty">
+                            <option value="" selected disabled hidden>Selecciona una opcion</option>
+                            <option *ngFor="let item of globalData.getSpecialtys()" value="{{item}}">{{item | firstCapitalLetter}}</option>
+                        </select>
+                        <div class="validation-message" *ngIf="formUser.get('specialty')?.hasError('required') && formUser.get('specialty')?.touched">Especialidad es requerida</div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="specialty">
+                        <label class="form-label">(Opcional)<br>Agregar una especialidad</label>
+                        <input type="text" maxlength="16" formControlName="specialtyAdd"/>
+                        <div class="add-specialty">
+                            <input  type="button" class="btn-add" (click)="addSpecialty()" value="Add">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="column">
+
+                    <div class="img-user">
+                        <label class="form-label">Imagen para el perfil</label>
+                        <input type="file"  formControlName="img" (change)="setImage($event)"/>
+                        <div class="validation-message" *ngIf="formUser.get('img')?.hasError('required')" [hidden]="formUser.get('img')?.pristine">Image requerida</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div id="g-recaptcha">
+                <ngx-recaptcha2 #captchaElem [siteKey]="recaptcha.siteKey" [theme]="recaptcha.theme" formControlName="recaptcha"></ngx-recaptcha2>
+            </div> -->
+
+            <div class="center-box">
+                <button class="btn-send " [disabled]="formUser.invalid" >Registrarse</button>
+            </div>
+        </form>
+    </div>
+</div>
+

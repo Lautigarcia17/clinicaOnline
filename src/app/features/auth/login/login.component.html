@@ -1,0 +1,38 @@
+
+
+<!-- <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar> -->
+
+<div class="container">
+    <div class="content">
+        <div class="data-clinic">
+            <form [formGroup]="formUser" (ngSubmit)="login()">
+                <h4 class="tittle-welcome">Iniciar Sesion</h4>
+
+                <div class="input-container">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-style" placeholder="Email" formControlName="email"/>
+                    <div class="validation-message" *ngIf="formUser.get('email')?.hasError('required')" [hidden]="formUser.get('email')?.pristine">Email es requerido</div>
+                    <div class="validation-message" *ngIf="formUser.get('email')?.hasError('email')" [hidden]="formUser.get('email')?.pristine">Formato invalido del email</div>
+                </div>
+
+                <div class="input-container">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" class="form-style" placeholder="Contraseña" formControlName="password"/>
+                    <div class="validation-message" *ngIf="formUser.get('password')?.hasError('required')" [hidden]="formUser.get('password')?.pristine">La contraseña es requerida</div>
+                </div>
+                <div class="center-button">
+                    <button class="btn margin-top" id="btn-login" [disabled]="formUser.invalid">Iniciar Sesion</button>
+                </div>
+            </form>
+            <div>
+                <p class="text-white center-text">Or</p>
+                <button class="btn mr-1" (click)="completeUser('lauti1718garcia@gmail.com','lautaro123')">Usuario 1 / administrador</button>
+                <button class="btn" (click)="completeUser('mexib45485@adrais.com','12345678')">Usuario 2 / paciente</button>
+            </div>
+            <p class="final-text">
+                <a href="./register" class="link">No tienes cuenta?</a>
+            </p>
+        </div>
+    </div>
+</div>
+

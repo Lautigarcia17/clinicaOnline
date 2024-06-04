@@ -1,0 +1,201 @@
+.questionnaire{
+    width: 100%;
+    height: auto;
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 1;
+    padding: 10px 15px;
+}
+
+label.form-label {
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+    border: 0;
+    border-bottom: 5px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    /* background-color: rgb(34, 198, 219); */
+}
+
+.validation-message{
+    color: red;
+    font-weight: bold;
+  }
+
+.optional{
+    font-size: 25px;
+    color: aliceblue;
+}
+
+.name-profile{
+    font-size: 60px;
+    border-bottom: 4px solid white;
+    text-align: center;
+}
+
+.add-specialty{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-add{
+    background-color: aquamarine;
+    color: white;
+    font-size: 15px;
+    border-radius: 25px;
+    border: 2px solid white;
+    width: 50px;
+}
+
+.btn-add:hover{
+    background-color: white;
+    color: aquamarine;
+}
+
+.center-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; 
+}
+
+.btn-send {
+    display: inline-block;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-send:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.btn-send:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-send:focus {
+    outline: none;
+}
+
+.text-center{
+    text-align: center;
+}
+
+
+
+@media (max-width: 2150px){
+
+    .container{
+        min-height: 70vh;
+    }
+
+    .name-profile{
+        font-size: 2vw;
+    }
+    .column {
+        padding: 5px 15px;
+    }
+    label.form-label{
+        font-size: 18px;
+    }
+    .validation-message{
+        font-size: 15px;
+    }
+
+    .questionnaire input{
+        width: 90%;
+        padding: 0px;
+        border-bottom: 3px solid black;
+        margin-bottom: 2px;
+        border-radius: 0px;
+    }
+
+    .btn-send button{
+        padding: 10px;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+
+    .add-specialty .btn-add{
+        font-size: 8px;
+        border-radius: 10px;
+        width: 35px;
+        height: 25px;
+        border: 0;
+    }
+}
+
+@media (max-width: 1550px){
+
+
+
+    .questionnaire input{
+        width: 92%;
+    }
+
+    .container{
+        height: auto;
+    }
+
+    .name-profile{
+        font-size: 1.7vw;
+    }
+    .column {
+        padding: 0px 15px;
+    }
+    label.form-label{
+        font-size: 10px;
+    }
+    .validation-message{
+        font-size: 10px;
+    }
+
+    .btn-send{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 4px;
+        margin-top: 0px;
+    }
+
+    .btn-send button{
+        padding: 5px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+
+    .name, .username, .age, .dni, .socialSecurity, .email, .password{
+        text-align: center;
+    }
+
+    .img-user input{
+        font-size: 6px;
+        width: 100px;
+    }
+    .img-user .form-label{
+        margin-right: 10px;
+    }
+
+}
