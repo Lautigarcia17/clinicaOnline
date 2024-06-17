@@ -53,7 +53,7 @@ export class User {
 //#endregion
 
 
-    static isDniAvailable(dni : number, dniCharged : []) : boolean{
+    static isDniAvailable(dni : number, dniCharged : number[]) : boolean{
         let available = true;
 
         for (let item of dniCharged) {
@@ -64,7 +64,7 @@ export class User {
         return available
     }
 
-    static validateDni( control: AbstractControl, dniCharged : []) : null | object{
+    static validateDni( control: AbstractControl, dniCharged : number[]) : null | object{
         const data = (control.value);
         if(data  && data.toString().length == 8){
             let available = this.isDniAvailable(data,dniCharged)

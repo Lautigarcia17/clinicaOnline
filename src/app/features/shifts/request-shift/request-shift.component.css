@@ -1,0 +1,237 @@
+.content{
+    height: 100%;
+    width: 100%;
+    /* background-image: linear-gradient(to right bottom, #f9f9f9, #e3e4e8, #cbd0d8, #b2bdc7, #98abb5); */
+    background-image: url('../../../../assets/request.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.content-element{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.inside-element{
+    background: linear-gradient(to bottom right, #2d3748, #1a202c);
+    border-radius: 10%;
+    box-shadow: 0px 0px 50px whitesmoke;
+    width: 700px;
+    height: 550px;
+}
+.option{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 25px 15px 0px 15px;
+    margin-bottom: 10px;
+}
+
+.option-element{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: stretch;
+    height: 320px;
+    gap: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(16, 233, 179) transparent;
+    width: 100%;
+}
+
+.option-element .btn-specialty{
+    width: 170px;
+    height: 45px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    background: linear-gradient(to top right, #22b58a, #368d85);
+    color: white;
+}
+
+.option-element .btn-specialty:hover{
+    box-shadow: 0 10px 15px -3px rgb(66 225 139 / 40%), 0 4px 6px -2px rgb(66 225 138 / 10%);
+    opacity: 0.85;
+}
+
+
+.tittle-option{
+    color: white;
+    font-size: 40px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.work-days-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.work-day-item {
+    margin-right: 5px; /* Adjust as needed for spacing between items */
+    font-size: 10px;
+    color: white;
+}
+.work-day-slash {
+    margin-right: 5px; /* Adjust as needed for spacing */
+    font-size: 10px;
+    color: white;
+}
+
+.option-element .btn-specialist{
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: overlay;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 40px;
+    font-weight: 700;
+    transition: transform .3s ease-in-out;
+    z-index: 1;
+    margin-top: 10px;
+}
+
+.option-element .btn-specialist:hover{
+    font-weight: 900;
+    transform: scale(1.1);
+}
+
+.name-specialist{
+    font-size: 25px;
+    color: white;
+    font-weight: 900;
+}
+
+.age-specialist{
+    font-size: 15px;
+    color: white;
+}
+
+.option-element p{
+    font-size: 15px;
+    color: aquamarine;
+    margin: 0;
+}
+
+.without-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+}
+.without-element h2{
+    font-size: 55px;
+    font-weight: 900;
+    color: #4FC3A1;
+}
+
+.btn-back {
+    border: 3px solid black;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-left: 18px;
+    margin-top: 15px;
+  }
+
+.img-back{
+    width: 40px;
+    height: 40px;
+    transition: transform .3s ease-in-out;
+}
+
+.img-back:hover{
+    transform: scale(1.1);
+}
+
+.btn-day{
+    width: 200px;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    padding: 3px 0px;
+    background: linear-gradient(to top right, #22b58a, #368d85);
+    color: white;
+}
+
+.btn-day:hover{
+    box-shadow: 0 10px 15px -3px rgb(66 225 139 / 40%), 0 4px 6px -2px rgb(66 225 138 / 10%);
+    opacity: 0.85;
+}
+
+.btn-day h4{
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.btn-day h5{
+    font-size: 15px;
+}
+
+.option-days{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: baseline;
+    margin-top: 10%;
+}
+
+.option-schedules{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 4%;
+}
+
+.select-patient{
+    margin-bottom: 30px;
+}
+.option-patient{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-patient select{
+    height: 25px;
+    font-size: 14px;
+    padding: 0px 18px;
+    border-radius: 14px;
+}
+
+
+.btn-schedules{
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 18px;
+    margin: 0px 8px 13px 10px;
+    padding: 8px 8px;
+    background: linear-gradient(to top right, #22b58a, #368d85);
+    color: white;
+}
+.btn-schedules:hover{
+    box-shadow: 0 10px 15px -3px rgb(66 225 139 / 40%), 0 4px 6px -2px rgb(66 225 138 / 10%);
+    opacity: 0.85;
+}
+
+
+hr.bar{
+    border: 2px dashed black;
+    margin-bottom: 20px;
+}
+
+.select-patient h2{
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    color: white;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatabaseService } from '../../../../core/services/database.service';
@@ -16,14 +16,10 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterAdministratorComponent {
   img : File | undefined;
-  dniCharged : [] = [];
-
+  @Input() dniCharged! : number[];
 
   constructor(private fb : FormBuilder, private database : DatabaseService, private toastr : ToastrService, private auth : AuthService){}
 
-  ngOnInit(): void {
-    this.dniCharged = this.database.getDni();
-  }
 
   formUser = this.fb.group({
     'name': ["",[Validators.required,Validators.pattern("[A-Za-z\s]+")]],
@@ -53,9 +49,10 @@ export class RegisterAdministratorComponent {
       img = await this.database.uploadImage(this.img,dni + "/" + dni + "." + Date.now());
       let administrator : Administrator = new Administrator(name,surname,parseInt(age),parseInt(dni),email,password,img);
       this.database.saveAdministratorDatabase(administrator);
+      this.emptyInputs();
     })
     .catch( () => {
-      this.toastr.warning("El mail ya fue registrado.","Aviso!", {timeOut: 3000,progressBar: true,closeButton:true});
+      this.toastr.error("El mail ya fue registrado.","Aviso!", {timeOut: 3000,progressBar: true,closeButton:true});
     })
 
 
@@ -65,6 +62,18 @@ export class RegisterAdministratorComponent {
   setImage($event : any)
   {
     this.img = $event.target.files[0];
+  }
+
+  emptyInputs(){
+    this.formUser.reset({
+      name: '',
+      surname: '',
+      age: '',
+      dni: '',
+      email: '',
+      password: '',
+      img: ''
+    });
   }
 
 }

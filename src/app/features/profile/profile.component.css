@@ -1,0 +1,202 @@
+.background-page {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../../assets/profile.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.emp-profile {
+    padding: 3%;
+    border-radius: 15%;
+    background-color: #000000bd;
+    min-height: 60vh;
+    width: 45vw;
+    box-shadow: 0px 0px 50px black;
+}
+
+.profile-row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+}
+
+.profile-column {
+    flex: 1;
+    padding: 5px;
+}
+
+.profile-img {
+    text-align: center;
+}
+
+.profile-img img {
+    border-radius: 20%;
+    width: 60%;
+    height: 50%;
+}
+
+.profile-head {
+    margin-bottom: 3%;
+}
+
+.profile-head h5 {
+    font-weight: 700;
+    font-size: 35px;
+    color: white;
+}
+
+.profile-head h6 {
+    font-size: 25px;
+    font-weight: 700;
+    color: #2b85e7;
+    margin-bottom: 5%;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 3%;
+}
+
+.nav-link {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    background: none;
+    color: white;
+    text-transform: uppercase;
+}
+
+.nav-link.active {
+    border-bottom: 2px solid #2b85e7;
+    color: #2b85e7;
+}
+
+.data-user {
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+}
+
+.profile-content p {
+    font-weight: 600;
+    color: #2b85e7;
+    font-size: 20px;
+}
+
+.profile-content a{
+    text-decoration: none;
+    color: #2b85e7;
+}
+
+.question-label {
+    display: block;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: #2b85e7;
+}
+
+.checkbox-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.checkbox-day input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-day input[type="checkbox"] + label {
+    display: inline-block;
+    /* padding: 0px 0px; */
+    margin-bottom: 1px;
+    cursor: pointer;
+    border: 1px solid #0062cc;
+    border-radius: 5px;
+    font-size: 20px;
+    width: 200px;
+    text-align: center;
+    background-color: white;
+    color: black;
+    font-weight: 700;
+}
+
+.checkbox-day input[type="checkbox"]:checked + label {
+    background-color: rgba(16, 233, 179, 0.795);
+    color: white;
+}
+
+.btn-shifts {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.btn-shifts button {
+    font-size: 25px;
+    font-weight: 700;
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+    padding: 2px 40px;
+    margin-right: 22px;
+}
+
+.btn-shifts button:hover {
+    transform: scale(1.1);
+    font-weight: 700;
+}
+
+.btn-shifts .colour-clear {
+    background-color: seashell;
+    color: black;
+}
+
+.btn-shifts .colour-save {
+    background-color: dodgerblue;
+}
+
+.work-day {
+    margin-top: 10px;
+    font-size: 35px;
+    font-weight: 700;
+    color: #2b85e7;
+}
+
+.work-days-container {
+    display: flex;
+    justify-content: center;
+}
+
+.work-day-item {
+    margin-right: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+.work-day-slash {
+    margin-right: 5px;
+    font-size: 20px;
+    color: white;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.no-days{
+    font-size: 15px;
+}
+
+.margin-top{
+    margin-top: 10px;
+}

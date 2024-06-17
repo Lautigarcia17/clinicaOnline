@@ -1,9 +1,10 @@
 .questionnaire{
     width: 100%;
-    height: auto;
+    height: 100%;
 }
 
 .row {
+    margin-top: 10px;
     display: flex;
 }
 
@@ -12,13 +13,13 @@
     padding: 10px 15px;
 }
 
-label.form-label{
+.form-label {
     color: white;
     font-size: 20px;
     font-weight: 700;
 }
 
-.questionnaire input{
+.input-data {
     width: 100%;
     padding: 5px;
     border: 0;
@@ -33,8 +34,6 @@ label.form-label{
     font-weight: bold;
   }
 
-
-
 .optional{
     font-size: 25px;
     color: aliceblue;
@@ -44,6 +43,25 @@ label.form-label{
     font-size: 60px;
     border-bottom: 4px solid white;
     text-align: center;
+}
+
+.add-specialty{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-add{
+    background-color: aquamarine;
+    color: white;
+    font-size: 15px;
+    border-radius: 25px;
+    border: 2px solid white;
+    width: 50px;
+}
+
+.btn-add:hover{
+    background-color: white;
+    color: aquamarine;
 }
 
 .center-box{
@@ -85,63 +103,44 @@ label.form-label{
     text-align: center;
 }
 
-
-@media (max-width: 2150px){
-
-    .container{
-        min-height: 70vh;
-    }
-
-    .name-profile{
-        font-size: 2vw;
-    }
-    .column {
-        padding: 5px 15px;
-    }
-    label.form-label{
-        font-size: 18px;
-    }
-    .validation-message{
-        font-size: 15px;
-    }
-
-    .questionnaire input{
-        width: 90%;
-        padding: 0px;
-        border-bottom: 3px solid black;
-        margin-bottom: 2px;
-        border-radius: 0px;
-    }
-
-    .btn-send button{
-        padding: 10px;
-        font-size: 30px;
-        font-weight: 700;
-    }
-
+.img-user{
+    display: flex;
+    justify-content: space-around;
 }
 
-@media (max-width: 1550px){
+.input-image{
+    border-bottom: 5px solid black;
+    border-radius: 5px;
+    width: 65%;
+    font-size: 15px;
+}
 
 
+@media (max-width: 1800px){
 
-    .questionnaire input{
-        width: 92%;
+    .name-profile{
+        font-size: 40px;
+    }
+
+    .form-label{
+        font-size: 17px;
+    }
+
+    .input-data{
+        width: 90%;
+        padding: 2px;
+        margin-bottom: 18px;
     }
 
     .container{
         height: auto;
     }
 
-    .name-profile{
-        font-size: 1.7vw;
-    }
+
     .column {
         padding: 0px 15px;
     }
-    label.form-label{
-        font-size: 10px;
-    }
+
     .validation-message{
         font-size: 10px;
     }
@@ -160,15 +159,6 @@ label.form-label{
     }
 
 
-    .name, .username, .age, .dni, .socialSecurity, .email, .password{
-        text-align: center;
-    }
 
-    .img-user input{
-        font-size: 6px;
-        width: 100px;
-    }
-    .img-user .form-label{
-        margin-right: 10px;
-    }
+
 }

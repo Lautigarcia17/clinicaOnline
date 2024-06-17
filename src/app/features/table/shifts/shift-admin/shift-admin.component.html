@@ -1,0 +1,71 @@
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+        <tr>
+          <th>Especialidad</th>
+          <th>Especialista</th>
+          <th>Paciente</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Email especialista</th>
+          <th>Email paciente</th>
+          <th>Estado del turno</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (item of arrayShifts | filter : searchFilter : globalData.getProfile(); track $index) {
+            <tr>     
+              <td>{{item.specialty | firstCapitalLetter}}</td>
+              <td>{{item.specialist | firstCapitalLetter}}</td>
+              <td>{{item.patient | firstCapitalLetter}}</td>
+              <td>{{item.date | date : 'd/M/yy'}}</td>
+              <td>{{item.date | date : 'HH:mm a'}}</td>
+              <td>{{item.emailSpecialist}}</td>
+              <td>{{item.emailPatient}}</td>
+              <td><p class="txt-state" [ngClass]="{ 'text-red': item.stateShift === 'cancelado' || item.stateShift === 'rechazado' , 'text-blue': item.stateShift === 'pendiente', 'text-green': item.stateShift === 'completado', 'text-green-light' : item.stateShift === 'aceptado' }">{{ item.stateShift | firstCapitalLetter }}</p></td>
+
+              <td>
+                @if (item.stateShift === 'pendiente') {
+                  <button class="btn-cancel"  data-bs-toggle="modal" [attr.data-bs-target]="'#cancel' + $index">Cancelar</button>
+                }
+                @if (item.review.length > 0) {
+                  <button class="btn-review"  data-bs-toggle="modal" [attr.data-bs-target]="'#cancel' + $index">Reseña</button>
+                }
+                
+                <div class="modal fade" [id]="'cancel' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cancelLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content content-modal">
+                      <div class="modal-header">
+                        <h1  class="modal-title " id="cancelLabel">Reseña</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        @if (item.stateShift === 'pendiente') {
+                          <textarea class="form-control" [id]="'messageText' + $index" placeholder="Escribe la reseña ..."></textarea>
+                        }
+                        @else if (item.stateShift === 'cancelado') {
+                          <textarea class="form-control" [id]="'messageText' + $index" [value]="item.review" readonly></textarea>
+                        }
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        @if (item.stateShift === 'pendiente') {
+                          <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" (click)="cancelShift($index,item.id,item.emailSpecialist,item.date,item.stateShift)" >Enviar comentario y cancelar el turno</button>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td> 
+            </tr>
+          }
+          @empty {
+            <div class="without-result">
+              <h1>Sin resultados</h1>
+            </div>
+          }
+        <tbody>
+    </table>
+  </div>
+  

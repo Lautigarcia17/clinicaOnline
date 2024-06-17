@@ -6,7 +6,7 @@ export class Patient extends User{
 
     constructor(name : string, surname:string, age:number, dni: number, socialSecurity:string, email:string, password:string, img:Array<string>){
         super(name,surname,age,dni,email,password,img);
-        this.profile = "patient";
+        this.profile = "paciente";
         this.socialSecurity = socialSecurity;
     }
 

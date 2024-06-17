@@ -1,0 +1,43 @@
+<div class="table-wrapper">
+    <table class="fl-table" id="table-patients">
+        <thead>
+        <tr>
+            <th>Dni</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Edad</th>
+            <th>Mail</th>
+            <th>Especialidad</th>
+            <th>Imagen</th>
+            <th>Autorizado</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (item of users; track $index) {
+                <tr>
+                    @if (item.profile == 'especialista') {
+                        <td>{{item.dni}}</td>
+                        <td>{{item.name | firstCapitalLetter}}</td>
+                        <td>{{item.surname | firstCapitalLetter}}</td>
+                        <td>{{item.age}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.specialty[0] | firstCapitalLetter }} 
+                            @if (item.specialty.length == 2) {
+                                <span> - {{item.specialty[1] | firstCapitalLetter }}</span>
+                            }
+                        </td>
+                        <td class="img-td"><img src="{{item.img}}"></td>
+                        
+                        @if (item.adminVerified) {
+                            <td class="td-space"> <p class="text-state">SI</p> <button class="red" (click)="changeAuthorization(item.dni,item.adminVerified)">Desabilitar</button></td>
+                        }
+                        @else if (!item.adminVerified) {
+                            <td class="td-space"> <p class="text-state">NO</p> <button class="green" (click)="changeAuthorization(item.dni,item.adminVerified)">Habilitar</button></td>
+                        }
+                    }
+                </tr>
+            }
+
+        <tbody>
+    </table>
+</div>

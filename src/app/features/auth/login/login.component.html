@@ -1,9 +1,34 @@
 
-
-<!-- <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar> -->
-
 <div class="container">
     <div class="content">
+
+        <div class="quick-access-buttons">
+            <div class="user-group">
+                <h4 class="user-group-title">Administradores</h4>
+                <div class="user-category">
+                    <button class="user-button" (click)="completeUser('lauti1718garcia@gmail.com','lautaro123')"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2F45040166%2F45040166.1717521820126?alt=media&token=0b79962b-5450-4d41-ba46-4b461fbe8ab9" class="user-image"></button>
+                </div>
+            </div>
+
+            <div class="user-group">
+                <h4 class="user-group-title">Especialistas</h4>
+                <div class="user-category">
+                    <button class="user-button" (click)="completeUser('ribiyeg392@avastu.com','martin123')"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2F21034161%2F21034161.1717516348229?alt=media&token=f3b26195-7a9a-48eb-a9ac-ae0156d59c9d" class="user-image"></button>
+                    <button class="user-button" (click)="completeUser('cofan94992@acuxi.com','asd12345')"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2F34231516%2F34231516.1717545915052?alt=media&token=7270d94d-5a47-4ceb-9e0d-3d14183718ea" class="user-image"></button>
+                </div>
+            </div>
+
+            <div class="user-group">
+                <h4 class="user-group-title">Pacientes</h4>
+                <div class="user-category">
+                    <button class="user-button" (click)="completeUser('mexib45485@adrais.com','12345678')"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2F23451617%2F23451617.1717512920722?alt=media&token=0ae65e3b-46e4-4e68-ac1a-65f18174dfcd" class="user-image"></button>
+                    <button class="user-button" (click)="completeUser('xanova3522@cnurbano.com','juan123a')"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2F28231520%2F28231520.1717994214660?alt=media&token=b0cfc6c7-37ce-4502-8944-e906e57969d7" class="user-image"></button>
+                    <button class="user-button" (click)="completeUser('bobosom980@adrais.com','bobo1234')"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2F43523212%2F43523212.1717513453398?alt=media&token=f6ea1a56-dec2-4ed4-a39d-36af587d0ec8" class="user-image"></button>
+                </div>
+            </div>
+        </div>
+
+
         <div class="data-clinic">
             <form [formGroup]="formUser" (ngSubmit)="login()">
                 <h4 class="tittle-welcome">Iniciar Sesion</h4>
@@ -11,24 +36,25 @@
                 <div class="input-container">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" id="email" class="form-style" placeholder="Email" formControlName="email"/>
-                    <div class="validation-message" *ngIf="formUser.get('email')?.hasError('required')" [hidden]="formUser.get('email')?.pristine">Email es requerido</div>
-                    <div class="validation-message" *ngIf="formUser.get('email')?.hasError('email')" [hidden]="formUser.get('email')?.pristine">Formato invalido del email</div>
+                    @if (formUser.get('email')?.hasError('required')) {
+                        <div class="validation-message"  [hidden]="formUser.get('email')?.pristine">Email es requerido</div>
+                    }
+                    @else if (formUser.get('email')?.hasError('email')) {
+                        <div class="validation-message"  [hidden]="formUser.get('email')?.pristine">Formato invalido del email</div>
+                    }
                 </div>
 
                 <div class="input-container">
                     <label for="password" class="form-label">Contraseña</label>
                     <input type="password" id="password" class="form-style" placeholder="Contraseña" formControlName="password"/>
-                    <div class="validation-message" *ngIf="formUser.get('password')?.hasError('required')" [hidden]="formUser.get('password')?.pristine">La contraseña es requerida</div>
+                    @if (formUser.get('password')?.hasError('required')) {
+                        <div class="validation-message"  [hidden]="formUser.get('password')?.pristine">La contraseña es requerida</div>
+                    }
                 </div>
                 <div class="center-button">
                     <button class="btn margin-top" id="btn-login" [disabled]="formUser.invalid">Iniciar Sesion</button>
                 </div>
             </form>
-            <div>
-                <p class="text-white center-text">Or</p>
-                <button class="btn mr-1" (click)="completeUser('lauti1718garcia@gmail.com','lautaro123')">Usuario 1 / administrador</button>
-                <button class="btn" (click)="completeUser('mexib45485@adrais.com','12345678')">Usuario 2 / paciente</button>
-            </div>
             <p class="final-text">
                 <a href="./register" class="link">No tienes cuenta?</a>
             </p>

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { GlobalDataService } from './core/services/global-data.service';
+
 
 
 @Component({
@@ -9,6 +11,9 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent{
  
+  constructor(public globalData : GlobalDataService){}
+
+
 }

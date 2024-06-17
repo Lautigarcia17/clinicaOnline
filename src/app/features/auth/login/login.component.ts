@@ -37,14 +37,14 @@ export default class LoginComponent {
           this.toastr.info("No verificaste el email. Verifica el email para acceder!","Recuerda", {timeOut: 3000,progressBar: true,closeButton:true});
         }
         else{
-          this.database.getUserDatabase(response.user.email ?? '')
-          .then( user => {
-              if (user.profile == 'specialist' && user.adminVerified == false) {
+          this.database.getUser(response.user.email ?? '')
+          .subscribe( (user : any) => {
+              if (user[0].profile == 'especialista' && user[0].adminVerified == false) {
                 this.toastr.info("No has sido verificado por el administrador. Espera que te verifique!","Aviso", {timeOut: 3000,progressBar: true,closeButton:true});
               }
               else{
-                this.localStorage.saveDataUserLocalStorage(user.name + " " + user.surname, user.email, user.profile);
-                this.globalData.setLoggedInUser(user.profile);
+                this.localStorage.saveDataUserLocalStorage(user[0].id);
+                this.globalData.setUser(user[0]);
                 this.toastr.success("Has iniciado sesion","Felicidades!", {timeOut: 3000,progressBar: true,closeButton:true});
                 this.router.navigate(["home"]); 
               }

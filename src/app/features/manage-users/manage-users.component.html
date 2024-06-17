@@ -1,110 +1,44 @@
 
-<div *ngIf="stateNewUser">
+@if (stateNewUser) {
     <button class="btn-back" (click)="changeStateNewUser()"><img class="img-back" src="../../../assets/backImage.png"></button>
     <app-register></app-register>
-</div>
-
-<div class="content" *ngIf="!stateNewUser">
-    <div class="btn-head">
-        <button class="btn-add" (click)="changeStateNewUser()">New user</button>
-    </div>
-    <!-- PATIENT -->
-    <h2 style="color: black;">Paciente</h2>
-    <div class="table-wrapper">
-        <table class="fl-table">
-            <thead>
-            <tr>
-                <th>Dni</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>Mail</th>
-                <th>Obra social</th>
-                <th>Imagenes</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of globalData.getUsers(); let i = index">
-                <ng-container *ngIf="item.profile =='patient'">
-                    <td>{{item.dni}}</td>
-                    <td>{{item.name | firstCapitalLetter}}</td>
-                    <td>{{item.surname | firstCapitalLetter}}</td>
-                    <td>{{item.age}}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.socialSecurity}}</td>
-                    <td class="td-space"> <img src="{{item.img[0]}}"> <img src="{{item.img[1]}}"></td>
-                </ng-container>
-            </tr>
-            <tbody>
-        </table>
-    </div>
+}
+@else if (!stateNewUser) {
+    <div class="content">
+        <div class="btn-head">
+            <button class="btn-add" (click)="changeStateNewUser()">Nuevo usuario</button>
+        </div>
     
-
-
-
-  
-
-    <!-- SPECIALIST -->
-    <h2 style="color: black;">Especialista</h2>
-    <div class="table-wrapper">
-        <table class="fl-table" id="table-patients">
-            <thead>
-            <tr>
-                <th>Dni</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>Mail</th>
-                <th>Especialidad</th>
-                <th>Imagen</th>
-                <th>Autorizado</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of globalData.getUsers()">
-                <ng-container *ngIf="item.profile =='specialist'">
-                    <td>{{item.dni}}</td>
-                    <td>{{item.name | firstCapitalLetter}}</td>
-                    <td>{{item.surname | firstCapitalLetter}}</td>
-                    <td>{{item.age}}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.specialty}}</td>
-                    <td class="img-td"><img src="{{item.img}}"></td>
-                    <td class="td-space" *ngIf="item.adminVerified"> <p class="text-state">Yes</p> <button class="red" (click)="changeAuthorization(item.dni,item.adminVerified)">Disable</button></td>
-                    <td class="td-space" *ngIf="!item.adminVerified"> <p class="text-state">No</p> <button class="green" (click)="changeAuthorization(item.dni,item.adminVerified)">Enable</button></td>
-                </ng-container>
-            </tr>
-            <tbody>
-        </table>
+        <div class="option">
+            <button (click)="selectTable('paciente')" [ngClass]="{'active-button' : viewPatient}">Pacientes</button>
+            <button (click)="selectTable('especialista')" [ngClass]="{'active-button' : viewSpecialist}">Especialistas</button>
+            <button (click)="selectTable('administrador')" [ngClass]="{'active-button' : viewAdministrator}">Administradores</button>
+        </div>
+    
+        <!-- PATIENT -->
+         @if (viewPatient) {
+            <app-patient-table [users]="globalData.getUsers()"></app-patient-table>
+         }
+    
+    
+        <!-- SPECIALIST -->
+        @if (viewSpecialist) {
+            <app-specialist-table [users]="globalData.getUsers()"></app-specialist-table>
+        }
+    
+    
+    
+        <!-- ADMINISTRATOR -->
+         @if (viewAdministrator) {
+           <app-admin-table [users]="globalData.getUsers()"></app-admin-table>
+        }
+    
+        
+    
     </div>
+}
 
-    <!-- ADMINISTRATOR -->
-    <h2 style="color: black;">Administrador</h2>
-    <div class="table-wrapper mb-5">
-        <table class="fl-table">
-            <thead>
-            <tr>
-                <th>Dni</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>Mail</th>
-                <th>Imagen</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of globalData.getUsers()">
-                <ng-container *ngIf="item.profile =='administrator'">
-                    <td>{{item.dni}}</td>
-                    <td>{{item.name | firstCapitalLetter}}</td>
-                    <td>{{item.surname | firstCapitalLetter}}</td>
-                    <td>{{item.age}}</td>
-                    <td>{{item.email}}</td>
-                    <td class="img-td"><img src="{{item.img}}"></td>
-                </ng-container>
-            </tr>
-            <tbody>
-        </table>
-    </div>
 
-</div>
+
+
+

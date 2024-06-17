@@ -1,30 +1,36 @@
 <div class="content">
     <div class="content-element">
-        <div class="inside-element" *ngIf="!stateRegister">    
-            <div class="name-for-profile" >
-                <h2 class="text-tooltip" *ngIf="showTooltip">{{textTooltip}}</h2>   
-                 
+        @if (!stateRegister) {
+            <div class="inside-element" >    
+                <div class="name-for-profile" >
+                    @if (showTooltip) {
+                        <h2 class="text-tooltip">{{textTooltip}}</h2>   
+                    }
+                     
+                </div>
+                <button class="type-image" (click)="changeStatePatient()" (mouseover)="showName('Paciente')" (mouseleave)="hideName()"><img src="../../../../assets/patient.png" alt="patient" class="img-type"></button>
+                <button class="type-image" (click)="changeStateSpecialist()" (mouseover)="showName('Especialista')" (mouseleave)="hideName()"><img src="../../../../assets/specialist.png" alt="patient" class="img-type" ></button>
+                @if (globalData.getProfile() == 'administrador') {
+                    <button  class="type-image"  (click)="changeStateAdministrator()" (mouseover)="showName('Administrador')" (mouseleave)="hideName()"><img src="../../../../assets/administrator.jpg" alt="patient" class="img-type" ></button> 
+                }
             </div>
-            <button class="type-image" (click)="changeStatePatient()" (mouseover)="showName('Paciente')" (mouseleave)="hideName()"><img src="../../../../assets/patient.png" alt="patient" class="img-type"></button>
-            <button class="type-image" (click)="changeStateSpecialist()" (mouseover)="showName('Especialista')" (mouseleave)="hideName()"><img src="../../../../assets/specialist.png" alt="patient" class="img-type" ></button>
-            <button  class="type-image" *ngIf="globalData.getProfile() == 'administrator'" (click)="changeStateAdministrator()" (mouseover)="showName('Administrador')" (mouseleave)="hideName()"><img src="../../../../assets/administrator.jpg" alt="patient" class="img-type" ></button>
-            
-        </div>
-        
-        <div *ngIf="stateRegister">
+        }
+
+        @if (stateRegister) {
             <div class="back">
                 <button class="back" (click)="setStates()">Volver</button>
             </div>
-            <div *ngIf="statePatient">
-                <app-register-patient></app-register-patient>
-            </div>
-            <div *ngIf="stateSpecialsit">
-                <app-register-specialist></app-register-specialist>
-            </div>
-            <div *ngIf="stateAdministrator">
-                <app-register-administrator></app-register-administrator>
-            </div>
-        </div>
+            @if (statePatient && dniCharged) {
+                <app-register-patient [dniCharged]="dniCharged"></app-register-patient>
+            }
+            @else if (stateSpecialsit && dniCharged ) {
+                <app-register-specialist [dniCharged]="dniCharged"></app-register-specialist>
+            }
+            @else if (stateAdministrator && dniCharged) {
+                <app-register-administrator [dniCharged]="dniCharged"></app-register-administrator>
+            }
+
+        }
     </div>
     
 </div>

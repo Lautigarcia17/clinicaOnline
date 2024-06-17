@@ -1,0 +1,112 @@
+<div class="content">
+    <div class="content-element">
+        @if (globalData.getCurrentUser()) {
+            <div class="inside-element">
+                @if (specialtySearched ==='') {
+                    <div class="option">
+                        <h2 class="tittle-option">Seleccionar Especialidad</h2>
+                        <div class="option-element">
+                            @for (item of specialtysCharged; track $index) {
+                                <button  class="btn-specialty" (click)="setSpecialist(item)">{{item | firstCapitalLetter}}</button>
+                            }
+                            @empty {
+                                <div class="without-element">
+                                    <h2> Sin especialidades</h2>
+                                </div>
+                            }                         
+                        </div>
+                    </div>
+                    
+                    @if (globalData.getCurrentUser().profile == 'administrador') {
+                        <div class="select-patient">
+                            <hr class="bar">
+                            <h2>Seleccionar paciente</h2>
+                            <div class="option-patient">
+                                <select [(ngModel)]="emailSelectedForAdmin" (change)="onPatientSelected($event)">
+                                    @for (item of globalData.getUsers(); track $index) {
+                                        <option value="" selected disabled hidden>Selecciona una opcion</option>
+                                        <option  *ngIf="item.profile === 'paciente'" [value]="item.email">{{item.name}} {{item.surname}} - {{item.age}} años</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    }
+                }
+                @else {
+                    <button class="btn-back" (click)="back()"><img class="img-back" src="../../../assets/backImage.png"></button>
+
+                    @if (!stateDays && !stateSchedules) {
+
+                        @if (hasSpecialist) {
+                            <div class="option">
+                                <h2 class="tittle-option">Seleccionar especialista</h2>
+                                <div class="option-element">
+                                    @for (item of globalData.getUsers(); track $index) {
+                                        @if (item.profile === 'especialista' && ( item.specialty[0] === (specialtySearched | lowercase) || item.specialty[1] === (specialtySearched | lowercase))) {
+        
+                                            <button class="btn-specialist" style='background-image: url({{item.img}});' (click)="setDays(item)" [disabled]="!item.workDays.length">
+                                                <h4 class="name-specialist">{{item.name | firstCapitalLetter}} {{item.surname | firstCapitalLetter}}</h4>
+                                                <h5 class="age-specialist">{{item.age}} años</h5>
+                                                <p>Dias de trabajo</p>
+                                                <div class="col-md-12 work-days-container">
+                                                    @for (day of item.workDays; track $index) {
+                                                        <div class="work-day-item">{{day}}</div>
+                                                        @if ($index < item.workDays.length - 1) {
+                                                            <div  class="work-day-slash">/</div>
+                                                        }
+                                                    }
+                                                    @empty {
+                                                        <div style="color: red;" class="work-day-item">Sin dias laborales disponibles</div>
+                                                    }
+                                                </div>
+                                            </button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @else {
+                            <div class="without-element">
+                                <h2> Sin especialista</h2>
+                            </div>
+                        }
+
+                    }
+                }
+                
+                @if (stateDays && !stateSchedules) {
+                    <div class="option" >
+                        <h2 class="tittle-option"> Seleccionar dia</h2>
+                        <div class="option-days">
+                            @for (item of daysForShifts; track $index) {
+                                <button class="btn-day" (click)="setSchedules(item)">
+                                    <h4>{{item | dayName}}</h4>
+                                    <h5>{{item.getDate()}} / {{item.getMonth() | adjustMonthNumber}} / {{item.getFullYear()}}</h5>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+
+
+                @if (stateSchedules) {
+                    <div class="option" >
+                        <h2 class="tittle-option"> Seleccionar horario</h2>
+                        <div class="option-schedules">
+                            @for (item of hours; track $index) {
+                                <button class="btn-schedules" (click)="saveShift(item)">{{item.getHours()}} : {{item.getMinutes() | formatDoubleZero}}</button>
+                            }
+                        </div>
+                    </div>
+                }
+
+
+
+
+
+            </div>
+        }
+
+    </div>
+</div> 
+

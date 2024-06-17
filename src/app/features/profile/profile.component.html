@@ -1,1 +1,174 @@
-<p>profile works!</p>
+<div class="background-page">
+    <div class="content-element">
+
+        <div class="emp-profile">
+            @if (globalData.getCurrentUser()) {
+                <div class="profile-row">
+                    <div class="profile-column">
+                        <div class="profile-img">
+                            <img src="{{globalData.getCurrentUser().img}}" alt="img" />
+                        </div>
+
+                        @if (globalData.getCurrentUser().profile === 'paciente') {
+                            <div class="profile-img">
+                                <img class="margin-top" src="{{globalData.getCurrentUser().img[1]}}" alt="img" />
+                            </div>
+                        }
+                    </div>
+                    <div class="profile-column">
+                        <div class="profile-head">
+                            <h5>
+                                {{globalData.getCurrentUser().name | firstCapitalLetter}} {{globalData.getCurrentUser().surname | firstCapitalLetter}}
+                            </h5>
+                            <h6>
+                                {{globalData.getCurrentUser().profile}}
+                            </h6>
+                            <div class="nav-tabs">
+                                <button class="nav-link active" id="about-tab"  (click)="switchViewElement('about')">Datos</button>
+
+                                @if (globalData.getCurrentUser().profile === 'especialista') {
+                                    <button class="nav-link" id="shifts-tab" (click)="switchViewElement('shifts')">Dias</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="profile-content">
+
+                            @if (!viewShifts) {
+                                <div class="profile-row">
+                                    <div class="profile-column">
+                                        <label class="data-user">Nombre</label>
+                                    </div>
+                                    <div class="profile-column">
+                                        <p>{{globalData.getCurrentUser().name | firstCapitalLetter}}</p>
+                                    </div>
+                                </div>
+                                <div class="profile-row">
+                                    <div class="profile-column">
+                                        <label class="data-user">Apellido</label>
+                                    </div>
+                                    <div class="profile-column">
+                                        <p>{{globalData.getCurrentUser().surname | firstCapitalLetter}}</p>
+                                    </div>
+                                </div>
+                                <div class="profile-row">
+                                    <div class="profile-column">
+                                        <label class="data-user">Dni</label>
+                                    </div>
+                                    <div class="profile-column">
+                                        <p>{{globalData.getCurrentUser().dni}}</p>
+                                    </div>
+                                </div>
+                                <div class="profile-row">
+                                    <div class="profile-column">
+                                        <label class="data-user">Edad</label>
+                                    </div>
+                                    <div class="profile-column">
+                                        <p>{{globalData.getCurrentUser().age}} Años</p>
+                                    </div>
+                                </div>
+                                <div class="profile-row">
+                                    <div class="profile-column">
+                                        <label class="data-user">Email</label>
+                                    </div>
+                                    <div class="profile-column">
+                                        <p><a href="mailto:{{globalData.getCurrentUser().email}}">{{globalData.getCurrentUser().email}}</a></p>
+                                    </div>
+                                </div>
+                                @if (globalData.getCurrentUser().profile === 'paciente') {
+                                    <div class="profile-row" >
+                                        <div class="profile-column">
+                                            <label class="data-user">Obra social</label>
+                                        </div>
+                                        <div class="profile-column">
+                                            <p>{{globalData.getCurrentUser().socialSecurity}}</p>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (globalData.getCurrentUser().profile === 'especialista') {
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <label class="data-user">Especialidad/es</label>
+                                        </div>
+                                        <div class="profile-column">
+                                            <p>{{globalData.getCurrentUser().specialty}}</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="profile-row">
+                                        <div class="profile-column text-center">
+                                            <label class="work-day">Dias de trabajo</label>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row work-days-container">
+                                        @for (item of globalData.getCurrentUser().workDays; track $index) {
+                                            <div class="work-day-item">{{ item }}</div>
+                                            @if ($index < globalData.getCurrentUser().workDays.length - 1) {
+                                                <div  class="work-day-slash">/</div>
+                                            }
+                                        }
+                                        @empty {
+                                            <h5 class="no-days">Sin dias de trabajo cargados.</h5>
+                                        }
+                                    </div>          
+                                }
+
+                            }
+
+
+                            <div [hidden]="!viewShifts">
+                                <label class="question-label">Dias de trabajo</label>
+                                <div class="checkbox-day">
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <input type="checkbox" id="lunes" value="Lunes">
+                                            <label for="lunes">Lunes</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <input type="checkbox" id="martes" value="Martes">
+                                            <label for="martes">Martes</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <input type="checkbox" id="miercoles" value="Miercoles">
+                                            <label for="miercoles">Miercoles</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <input type="checkbox" id="jueves" value="Jueves">
+                                            <label for="jueves">Jueves</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <input type="checkbox" id="viernes" value="Viernes">
+                                            <label for="viernes">Viernes</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row">
+                                        <div class="profile-column">
+                                            <input type="checkbox" id="sabado" value="Sabado">
+                                            <label for="sabado">Sabado</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="profile-row">
+                                        <div class="profile-column btn-shifts">
+                                            <button class="btn colour-clear" (click)="clearCheckbox()">Limpiar</button>
+                                            <button class="btn colour-save" (click)="saveDaysWork()">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>   
+                </div>              
+            }
+
+        </div>
+    </div>
+</div>

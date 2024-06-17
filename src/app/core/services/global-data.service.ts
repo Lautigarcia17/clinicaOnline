@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 import { DatabaseService } from './database.service';
+import { Observable } from 'rxjs';
+import { Shift } from '../models/shift';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalDataService {
+  dataCharged : boolean = false;
+  private currentUser : any;
   private stateLogin: boolean;
-  private profile! : string;
-  private arraySpecialty! : Array<any>;
   private arrayUsers! : Array<any>;
+  private arrayShifts! : Array<any>;
+  private observableUser! : any;
 
   constructor(localStorage: LocalStorageService, database : DatabaseService) {
     this.stateLogin = localStorage.stateLogin;
-    this.profile = localStorage.currentProfile == undefined ? "" : localStorage.currentProfile;
 
-    database.getSpecialty()
-    .subscribe((response : any) =>{
-      this.arraySpecialty =[];
-      for(let element of response)
-      {
-        this.arraySpecialty.push(element.name);         
-      }
-    });
+    if(localStorage.currentId == ''){
+      this.dataCharged = true;
+    }
 
     database.getUsersDatabase()
     .subscribe((response : any) =>{
@@ -30,9 +28,24 @@ export class GlobalDataService {
       for(let user of response)
       {
         this.arrayUsers.push(user);         
+    
+        if(user.id == localStorage.currentId){
+          this.currentUser = user
+          this.dataCharged = true;
+        }
+
+
       }
     });
 
+    database.getShifts()
+    .subscribe((response : Shift[]) =>{
+      this.arrayShifts =[];
+      for(let shift of response)
+      {
+        this.arrayShifts.push(shift);         
+      }
+    });
 
   }
 
@@ -45,26 +58,34 @@ export class GlobalDataService {
   }
 
   getProfile() : string{
-    return this.profile;
+
+    return this.currentUser ? this.currentUser.profile : '';
   }
 
-  getSpecialtys() : Array<string>{
-    return this.arraySpecialty;
-  }
 
   getUsers() : Array<any>{
     return this.arrayUsers;
   }
 
   setLogout(): void {
+    if (this.observableUser) {
+      this.observableUser.unsubscribe();
+    }
     this.stateLogin = false;
-    this.profile = '';
+    this.currentUser = '';
   }
 
-  setLoggedInUser(profile: string): void {
+  getCurrentUser() : any{
+    return this.currentUser;
+  }
+
+  setUser(user: any): void {
     this.stateLogin = true;
-    this.profile = profile
+    this.currentUser = user;
   }
   
+  getShifts() : any{
+    return this.arrayShifts;
+  }
 
 }

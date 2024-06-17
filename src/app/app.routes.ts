@@ -24,6 +24,13 @@ export const routes: Routes = [
           },
           {
             path: 'manageUsers', loadComponent: () => import('./features/manage-users/manage-users.component'), canActivate: [authGuard],
+          },
+          {
+            path: 'requestShift', loadComponent: () => import('./features/shifts/request-shift/request-shift.component'), canActivate: [authGuard],
+          }
+          ,
+          {
+            path: 'shifts', loadComponent: () => import('./features/shifts/shifts/shifts.component'), canActivate: [authGuard],
           }
         ]
       },

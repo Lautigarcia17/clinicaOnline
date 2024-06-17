@@ -1,0 +1,240 @@
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+        <tr>
+            <th>Especialidad</th>
+            <th>Especialista</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Email especialista</th>
+            <th>Estado del turno</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (item of arrayShifts | filter : searchFilter : globalData.getProfile(); track $index) {
+                <tr >
+                    @if (globalData.getCurrentUser().email === item.emailPatient) {
+                
+                        <td>{{item.specialty | firstCapitalLetter}}</td>
+                        <td>{{item.specialist | firstCapitalLetter}}</td>
+                        <td>{{item.date | date : 'd/M/yy'}}</td>
+                        <td>{{item.date | date : 'HH:mm a'}}</td>
+                        <td>{{item.emailSpecialist}}</td>
+                        <td><p class="txt-state" [ngClass]="{ 'text-red': item.stateShift === 'cancelado' || item.stateShift === 'rechazado' , 'text-blue': item.stateShift === 'pendiente', 'text-green': item.stateShift === 'completado', 'text-green-light' : item.stateShift === 'aceptado' }">{{ item.stateShift | firstCapitalLetter }}</p></td>
+                        <td class="order-button">
+                            @if (item.stateShift === 'completado') {
+                                @if (item.survey.experience === '') {
+                                    <button class="btn-survey" data-bs-toggle="modal" [attr.data-bs-target]="'#survey' + $index">Completar encuesta</button>
+                                }
+                                @if (item.qualification === '') {
+                                    <button class="btn-rate"  data-bs-toggle="modal" [attr.data-bs-target]="'#rate' + $index">Calificar atencion</button>
+                                }
+                                <button class="btn-completed" data-bs-toggle="modal" [attr.data-bs-target]="'#diagnosis' + $index">Diagnostico</button>
+                            }
+
+                            @if (item.review.length > 0) {
+                                <button class="btn-review" data-bs-toggle="modal" [attr.data-bs-target]="'#cancelBackdrop' + $index">Reseña</button>
+                            }
+
+                            @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
+                                <button class="btn-cancel"  [attr.data-bs-target]="'#cancelBackdrop' + $index">Cancelar</button>
+                            }
+                        </td> 
+                    
+                    <!-- Cancell -->
+                        <div class="modal fade" [id]="'cancelBackdrop' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cancelBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content content-modal">
+                                    <div class="modal-header">
+                                        <h1  class="modal-title " id="cancelBackdropLabel">Reseña</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
+                                            <textarea class="form-control" [id]="'messageText' + $index" placeholder="Write review ..."></textarea>
+                                        }
+                                        @else if (item.stateShift === 'cancelado' || item.stateShift === 'rechazado') {
+                                            <textarea class="form-control" [id]="'messageText' + $index" placeholder="Write review ..." [value]="item.review" readonly></textarea>
+                                        }
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
+                                            <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" (click)="cancelShift($index,item.id,item.emailSpecialist,item.date,item.stateShift)">Enviar comentario y cancelar el turno</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!--  -->
+
+                    <!-- COMPLETE SURVEY -->
+                        <div class="modal fade" [id]="'survey' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="surveyBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content content-modal">
+                                    <form [formGroup]="formSurvey">
+                                        <div class="modal-header">
+                                            <h1  class="modal-title " id="surveyBackdropLabel">Completar encuesta</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="rating mb-2">
+                                            <label class="question-label">Como calificarias tu experiencia en el hospital?</label>
+                                            <div class="radio-buttons">
+                                                <input type="radio" id="excelente" name="experience" value="excelente" formControlName="experience">
+                                                <label for="excelent">Excelente</label>
+                                            
+                                                <input type="radio" id="bueno" name="experience" value="bueno" formControlName="experience">
+                                                <label for="good">Bueno</label>
+                                            
+                                                <input type="radio" id="normal" name="experience" value="normal"  formControlName="experience">
+                                                <label for="normal">Normal</label>
+                                            
+                                                <input type="radio" id="malo" name="experience" value="malo" formControlName="experience">
+                                                <label for="bad">Malo</label>
+                                            </div>
+                                            </div>
+
+                                            <div><p style="color: white;">_______________________</p></div>
+                                            
+                                            <div class="rating mt-2">
+                                            <label class="question-label">Califica la higiene del lugar</label>
+                                            <div class="radio-buttons">
+                                                <input type="radio" id="bueno" name="hygiene" value="bueno" formControlName="hygiene">
+                                                <label for="good">Good</label>
+                                            
+                                                <input type="radio" id="podria ser mejor" name="hygiene" value="podria ser mejor" formControlName="hygiene">
+                                                <label for="it could be better">Podria ser mejor</label>
+
+                                                <input type="radio" id="nada higienico" name="hygiene" value="nada higienico" formControlName="hygiene">
+                                                <label for="nothing hygienic">Nada higienico</label>
+                                            </div>
+                                            </div>
+
+                                            <div><p style="color: white;">_______________________</p></div>
+
+                                            <label class="question-label" > Algún comentario que quieras dejar? (opcional)</label>
+                                            <textarea name="comment" id="comment" cols="50" rows="2" formControlName="comment"></textarea>
+                                        </div>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" [disabled]="formSurvey.invalid" (click)="sendSurvey(item.id)">Enviar encuesta</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <!--  -->
+                    <!-- Rate -->
+                        <div class="modal fade" [id]="'rate' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rateBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content content-modal">
+                                <form [formGroup]="formQualification">
+                                <div class="modal-header">
+                                    <h1  class="modal-title " id="rateBackdropLabel">Calificar atencion</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="rating mb-2">
+                                    <label class="question-label">¿Cómo calificarías tu experiencia con</label>
+                                    <label class="question-label">el doctor '{{item.specialist}}'?</label>
+                                    <textarea name="comment" id="comment" cols="50" rows="2" formControlName="qualification"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" [disabled]="formQualification.invalid" (click)="sendQualification(item.id)">Enviar respuesta</button>
+                                </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <!-- Complete -->
+                        <div class="modal fade" [id]="'diagnosis' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="diagnosisBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content content-modal">
+                                    <div class="modal-header">
+                                    <h1  class="modal-title " id="diagnosisBackdropLabel">Diagnostico</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="rating mb-2">
+                                            <label class="question-label">Datos del paciente</label>
+                                            <div class="data-patient">
+                                            <label class="data">Nombre: <span>{{globalData.getCurrentUser().name | firstCapitalLetter}} {{globalData.getCurrentUser().surname | firstCapitalLetter}}</span></label>
+                                        
+                                            <label class="data">Edad: <span >{{globalData.getCurrentUser().age}}</span></label>
+                                        
+                                            <label class="data">Obra social:  <span>{{globalData.getCurrentUser().socialSecurity}}</span></label>
+                                        
+                                            <label class="data">Dni: <span>{{globalData.getCurrentUser().dni}}</span></label>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                    
+                                        @if (item.diagnosis) {
+                                            <div class="data-vital-signs">
+                                                <label class="data">Height</label>
+                                                <label class="data">Weight</label>
+                                                <label class="data">Temperature</label>
+                                                <label class="data">Pressure</label>
+                                            </div>
+                                            <div class="data-vital-signs">
+                                                <input type="number" value="{{item.diagnosis.height}}" readonly>
+                                                <input type="number" value="{{item.diagnosis.weight}}" readonly>
+                                                <input type="number" value="{{item.diagnosis.temperature}}" readonly>
+                                                <input type="number" value="{{item.diagnosis.pressure}}" readonly>
+                                            </div>
+    
+    
+                                            <div><p style="color: white;text-align: center;">_______________________</p></div>
+                                        
+                                            <div class="mt-2">
+                                                <label class="question-label">Principal diagnostico</label>
+                                                <textarea name="principalDiagnosis" id="principalDiagnosis" cols="50" rows="1"  readonly>{{item.diagnosis.principalDiagnosis}}</textarea>
+                                            </div>
+    
+                                            <div><p style="color: white;text-align: center;">_______________________</p></div>
+    
+                                            <div class="mt-2">
+                                                <label  class="question-label">Medicacion o precauciones</label>
+                                                <textarea name="medicationsOrPrecautions" id="medicationsOrPrecautions" cols="50" rows="1" readonly>{{item.diagnosis.medicationsOrPrecautions}}</textarea>
+                                            </div>
+    
+                                            <div clas><p style="color: white;text-align: center;">_______________________</p></div>
+                                        
+                                            <div class="mt-2">
+                                                <label class="question-label">Comentario del especialista</label>
+                                                <textarea  name="comment" id="comment" cols="50" rows="1" readonly>{{item.diagnosis.comment}}</textarea>
+                                            </div>  
+                                        }
+
+                                    </div>          
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->  
+                    }
+                </tr>
+            }
+            @empty {
+                <div class="without-result">
+                    <h1>Sin resultados</h1>
+                </div>
+            }
+        <tbody>
+    </table>
+</div>
+
+

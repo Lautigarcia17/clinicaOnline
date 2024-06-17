@@ -1,0 +1,29 @@
+<div class="table-wrapper mb-5">
+    <table class="fl-table">
+        <thead>
+        <tr>
+            <th>Dni</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Edad</th>
+            <th>Mail</th>
+            <th>Imagen</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (item of users; track $index) {
+                <tr>
+                    @if (item.profile == 'administrador') {
+                        <td>{{item.dni}}</td>
+                        <td>{{item.name | firstCapitalLetter}}</td>
+                        <td>{{item.surname | firstCapitalLetter}}</td>
+                        <td>{{item.age}}</td>
+                        <td>{{item.email}}</td>
+                        <td class="img-td"><img src="{{item.img}}"></td>
+                    }
+                </tr>
+            }
+
+        <tbody>
+    </table>
+</div> 

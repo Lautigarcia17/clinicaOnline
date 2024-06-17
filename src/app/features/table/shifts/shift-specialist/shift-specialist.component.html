@@ -1,0 +1,195 @@
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+        <tr>
+          <th>Especialidad</th>
+          <th>Paciente</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Email paciente</th>
+          <th>Estado del turno</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (item of arrayShifts | filter : searchFilter : globalData.getProfile(); track $index) {
+              <tr>
+                @if (globalData.getCurrentUser().email === item.emailSpecialist){
+
+                  <td>{{item.specialty | firstCapitalLetter}}</td>
+                  <td>{{item.patient | firstCapitalLetter}}</td>
+                  <td>{{item.date | date : 'd/M/yy'}}</td>
+                  <td>{{item.date | date : 'HH:mm a'}}</td>
+                  <td>{{item.emailPatient}}</td>
+                  <td><p class="txt-state" [ngClass]="{ 'text-red': item.stateShift === 'cancelado' || item.stateShift === 'rechazado' , 'text-blue': item.stateShift === 'pendiente', 'text-green': item.stateShift === 'completado', 'text-green-light' : item.stateShift === 'aceptado' }">{{ item.stateShift | firstCapitalLetter }}</p></td>
+                  <td>
+                    @if (item.stateShift === 'pendiente') {
+                      <button class="btn-cancel" data-bs-toggle="modal" [attr.data-bs-target]="'#cancelBackdrop' + $index">Rechazar</button> 
+                      <button class="btn-accept"  (click)="acceptShift(item.id)" >Aceptar</button>
+                    }
+                    @if (item.review.length > 0) {
+                      <button class="btn-review" data-bs-toggle="modal" [attr.data-bs-target]="'#cancelBackdrop' + $index">Reseña</button>
+                    }
+
+                    @if (item.stateShift === 'aceptado') {
+                      <button class="btn-cancel" data-bs-toggle="modal" [attr.data-bs-target]="'#cancelBackdrop' + $index">Cancelar</button>
+                      <button class="btn-completed" data-bs-toggle="modal" [attr.data-bs-target]="'#diagnosis' + $index" (click)="chargePatient(item.emailPatient)" >Completar</button>
+                    }
+    
+
+    
+
+                    <!-- MODALS -->
+
+
+                    <!-- Cancell -->
+                    <div class="modal fade" [id]="'cancelBackdrop' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cancelBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content content-modal">
+                          <div class="modal-header">
+                            <h1  class="modal-title " id="cancelBackdropLabel">Reseña</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
+                              <textarea class="form-control"  [id]="'messageText' + $index" placeholder="Write review ..."></textarea>
+                            }
+                            @else if (item.stateShift === 'cancelado' || item.stateShift === 'rechazado') {
+                              <textarea class="form-control" [id]="'messageText' + $index" placeholder="Write review ..." [value]="item.review" readonly></textarea>
+                            }
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado' ) {
+                              <button type="button" class="btn btn-primary"  id="btnSend" data-bs-dismiss="modal" (click)="cancelShift($index,item.id,item.emailSpecialist,item.date,item.stateShift)">Enviar comentario y cancelar el turno</button>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--  -->
+    
+                    <!-- Complete -->
+                    <div class="modal fade" [id]="'diagnosis' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="diagnosisLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content content-modal">
+                          <form [formGroup]="formDiagnosis">
+                            <div class="modal-header">
+                              <h1  class="modal-title " id="diagnosisLabel">Completar diagnostico</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+    
+                            <div class="modal-body">
+                              <div class="rating mb-2">
+                                <label class="question-label">Datos del paciente</label>
+                                @if (patientSelected[0]) {
+                                  <div class="data-patient">
+                                    <label class="data">Nombre:  <span>{{patientSelected[0].name | firstCapitalLetter}} {{patientSelected[0].surname | firstCapitalLetter}}</span></label>  
+                                
+                                    <label class="data">Edad: <span >{{patientSelected[0].age}}</span></label>
+                                
+                                    <label class="data">Obra social:  <span>{{patientSelected[0].socialSecurity}}</span></label>
+                              
+                                    <label class="data">Dni: <span>{{patientSelected[0].dni}}</span></label>
+                                  </div>
+                                }
+                                <hr>
+                                
+                                <div class="data-vital-signs">
+                                  <label class="data">Altura</label>
+                                  <label class="data">Peso</label>
+                                  <label class="data">Temperatura</label>
+                                  <label class="data">Preesion</label>
+                                </div>
+                                <div class="data-vital-signs">
+                                  <input type="number" formControlName="height" min="50" max="300" placeholder="CM">
+                                  <input type="number" formControlName="weight" min="1" max="500" placeholder="KG">
+                                  <input type="number" formControlName="temperature" min="25" max="50" placeholder="°C">
+                                  <input type="number" formControlName="pressure" min="40" max="200" placeholder="PA">
+                                </div>
+                                <!-- Validations -->
+                                @if (formDiagnosis.get('height')?.hasError('required')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('height')?.pristine">La altura es requerida</div>
+                                }@else if (formDiagnosis.get('height')?.hasError('min') || formDiagnosis.get('height')?.hasError('max')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('height')?.pristine">La altura debe estar entre 50 y 300 CM</div>
+                                }
+
+                                @if (formDiagnosis.get('weight')?.hasError('required')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('weight')?.pristine">El peso es requerido</div>
+                                }@else if (formDiagnosis.get('weight')?.hasError('min') || formDiagnosis.get('weight')?.hasError('max')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('weight')?.pristine">El peso debe estar entre 1 y 500 KG</div>
+                                }
+
+                                @if (formDiagnosis.get('temperature')?.hasError('required')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('temperature')?.pristine">La temperatura es requerida</div>
+                                }@else if (formDiagnosis.get('temperature')?.hasError('min') || formDiagnosis.get('temperature')?.hasError('max')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('temperature')?.pristine">La temperatura debe estar entre 25 y 50 °C</div>
+                                }
+
+                                @if (formDiagnosis.get('pressure')?.hasError('required')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('pressure')?.pristine">La presion es requerida</div>
+                                }@else if (formDiagnosis.get('pressure')?.hasError('min') || formDiagnosis.get('pressure')?.hasError('max')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('pressure')?.pristine">La presion debe estar entre 40 y 200 PA</div>
+                                }
+
+
+                              </div>
+
+                              <div><p style="color: white;">_______________________</p></div>
+     
+
+                              <div class="mt-2">
+                                <label class="question-label">Principal diagnostico</label>
+                                <textarea name="principalDiagnosis" id="principalDiagnosis" cols="50" rows="1" formControlName="principalDiagnosis"></textarea>
+                                @if (formDiagnosis.get('principalDiagnosis')?.hasError('required')) {
+                                  <div class="validation-message"  [hidden]="formDiagnosis.get('principalDiagnosis')?.pristine">El diagnostico es requerido</div>
+                                } 
+                              </div>
+    
+                              <div><p style="color: white;">_______________________</p></div>
+    
+                              <div class="mt-2">
+                                  <label  class="question-label">Medicacion o precauciones</label>
+                                  <textarea name="medicationsOrPrecautions" id="medicationsOrPrecautions" cols="50" rows="1" formControlName="medicationsOrPrecautions"></textarea>
+                                  @if (formDiagnosis.get('medicationsOrPrecautions')?.hasError('required')) {
+                                    <div class="validation-message"  [hidden]="formDiagnosis.get('medicationsOrPrecautions')?.pristine">La medicacion o precaucion es requerida</div>
+                                  } 
+                              </div>
+    
+                              <div><p style="color: white;">_______________________</p></div>
+                              
+                              <div class="mt-2">
+                                  <label class="question-label">Comentario del especialista</label>
+                                  <textarea name="comment" id="comment" cols="50" rows="1" formControlName="comment"></textarea>
+                                  @if (formDiagnosis.get('comment')?.hasError('required')) {
+                                    <div class="validation-message"  [hidden]="formDiagnosis.get('comment')?.pristine">El comentario es requerido</div>
+                                  } 
+                              </div>
+    
+                            </div>
+                            
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" [disabled]="formDiagnosis.invalid" (click)="sendDiagnosis(item.id,item.emailSpecialist,item.date)">Enviar diagnostico</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!--  -->
+    
+                  </td> 
+               
+                }
+              </tr>
+            }
+            @empty {
+              <div class="without-result">
+                <h1>Sin resultados</h1>
+              </div>
+            }
+        <tbody>
+    </table>
+  </div>
+  
+  

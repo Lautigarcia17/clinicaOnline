@@ -29,7 +29,7 @@ export default class LayoutComponent implements OnInit{
 
   onResize(){
     const screenWidth : number = window.innerWidth;
-    let isWideScreen = screenWidth > 1000;
+    let isWideScreen : boolean = screenWidth > 1000;
     if (isWideScreen) {
       this.isCollapsed = false;  // Ensuring sidebar is expanded on wide screens
     }
@@ -45,7 +45,7 @@ export default class LayoutComponent implements OnInit{
   {
     Swal.fire({
       title: "Estas seguro?",
-      text: "volveras al  inicio y tendras que volver a iniciar sesion",
+      text: "Volveras al  inicio y tendras que volver a iniciar sesion",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: 'Si',
@@ -54,8 +54,8 @@ export default class LayoutComponent implements OnInit{
       if (result.isConfirmed) {
         this.auth.logout()
         .then( () =>{
-          this.globalData.setLogout();
           localStorage.clear();
+          this.globalData.setLogout();
           this.toastr.success("Has cerrado la sesion","Nos vemos!", {timeOut: 3000,progressBar: true,closeButton:true});
           this.router.navigate(['home']);
         })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatabaseService } from '../../../../core/services/database.service';
 import { ToastrService } from 'ngx-toastr';
@@ -7,23 +7,27 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { Patient } from '../../../../core/class/patient';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { GlobalDataService } from '../../../../core/services/global-data.service';
+import { RecaptchaService } from '../../../../core/services/recaptcha.service';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @Component({
   selector: 'app-register-patient',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule,NgxCaptchaModule],
   templateUrl: './register-patient.component.html',
   styleUrl: './register-patient.component.css'
 })
 export class RegisterPatientComponent implements OnInit {
   imgOne : File | undefined;
   imgTwo : File | undefined;
-  dniCharged : [] = [];
-  constructor(private fb : FormBuilder, private database : DatabaseService, private toastr : ToastrService, private router : Router,private auth : AuthService){
+  @Input() dniCharged! : number[];
+  
+  constructor(private fb : FormBuilder, private database : DatabaseService, private toastr : ToastrService, private router : Router,private auth : AuthService, private globalData : GlobalDataService, public recaptcha : RecaptchaService){
   }
 
   ngOnInit(): void {
-    this.dniCharged = this.database.getDni();
+   
   }
 
   formUser = this.fb.group({
@@ -36,7 +40,7 @@ export class RegisterPatientComponent implements OnInit {
     'password': ["",[Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
     'imgOne': ["",[Validators.required]],
     'imgTwo': ["",[Validators.required]],
-
+    'recaptcha' : ["",Validators.required],
   })
 
   async register(){
@@ -58,42 +62,46 @@ export class RegisterPatientComponent implements OnInit {
       let closedByUser : boolean = true;
 
       this.auth.verifiyEmail(response.user);
-      Swal.fire({
-        title: "Verifica tu mail",
-        text: "Revisa tu mail. Si cierras esta ventana deberas verificar mas tarde.",
-        icon: 'info',
-        width: 600,
-        allowOutsideClick: false,
-        showCloseButton: true,
-        didOpen: () => {
-          Swal.showLoading();
-          interval = setInterval(async () => {
-            this.auth.login(email,password)
-            .then( user => {
-              if (user.user.emailVerified == true) {
-                this.toastr.success("Verificacion realizada. Inicia sesion!","FELICIDADES!", {timeOut: 3000,progressBar: true,closeButton:true});
-                closedByUser = false;
-                Swal.close();
-              }
-            })
-          },5000);
-        },
-        willClose: () => {
-          if (closedByUser) {
-            this.toastr.info("Deberias verificar tu mail!","Recuerda", {timeOut: 3000,progressBar: true,closeButton:true});
-          }
-          this.router.navigate(['login']);
-          clearInterval(interval);
-        } 
-      })
+      if (this.globalData.getProfile() !== 'administrador') {   
+        Swal.fire({
+          title: "Verifica tu mail",
+          text: "Revisa tu mail. Si cierras esta ventana deberas verificar mas tarde.",
+          icon: 'info',
+          width: 600,
+          allowOutsideClick: false,
+          showCloseButton: true,
+          didOpen: () => {
+            Swal.showLoading();
+            interval = setInterval(async () => {
+              this.auth.login(email,password)
+              .then( user => {
+                if (user.user.emailVerified == true) {
+                  this.toastr.success("Verificacion realizada. Inicia sesion!","FELICIDADES!", {timeOut: 3000,progressBar: true,closeButton:true});
+                  closedByUser = false;
+                  Swal.close();
+                }
+              })
+            },5000);
+          },
+          willClose: () => {
+            if (closedByUser) {
+              this.toastr.error("Deberias verificar tu mail!","Recuerda", {timeOut: 3000,progressBar: true,closeButton:true});
+            }
+            this.router.navigate(['login']);
+            clearInterval(interval);
+          } 
+        })
+      }
+
 
       img.push(await this.database.uploadImage(this.imgOne,dni + "/" + dni + "." + Date.now()));
       img.push(await this.database.uploadImage(this.imgTwo,dni + "/" + dni + "." + Date.now()));
       let patient : Patient = new Patient(name,surname,parseInt(age),parseInt(dni),socialSecurity,email,password,img);
       this.database.savePatientDatabase(patient);
+      this.emptyInputs();
     })
     .catch( () => {
-      this.toastr.warning("El mail ya estaba registrado","Aviso!", {timeOut: 3000,progressBar: true,closeButton:true});
+      this.toastr.error("El mail ya estaba registrado","Aviso!", {timeOut: 3000,progressBar: true,closeButton:true});
     })
   }
 
@@ -108,4 +116,19 @@ export class RegisterPatientComponent implements OnInit {
       this.imgTwo = file;
     }
   }
+
+  emptyInputs(){
+    this.formUser.reset({
+      name: '',
+      surname: '',
+      age: '',
+      dni: '',
+      email: '',
+      password: '',
+      socialSecurity: '',
+      imgOne: '',
+      imgTwo: '',
+    });
+  }
+
 }

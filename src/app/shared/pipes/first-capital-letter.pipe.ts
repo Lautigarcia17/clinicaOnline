@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FirstCapitalLetterPipe implements PipeTransform {
 
-  transform(value: any, ...args: unknown[]): unknown {
+  transform(value: string): string {
     let word = value.toLowerCase();
     word = word.charAt(0).toUpperCase() + word.slice(1);
 

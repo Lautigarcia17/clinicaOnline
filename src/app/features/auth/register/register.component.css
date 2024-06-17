@@ -19,7 +19,9 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: rgba(123, 228, 245, 0.6);
+    /* background-color: #19adc596; */
+    background-color: #28a5e1bf;
+    backdrop-filter: blur(3px);
 }
 
 .inside-element{
@@ -29,7 +31,7 @@
 }
 
 .inside-element .type-image{
-    border-radius: 50%; 
+    border-radius: 20%; 
     overflow: hidden; 
     margin-bottom: 1vw;
     width: 14vw; /* VW is the page percentage, in this case of this element*/

@@ -7,48 +7,23 @@ export class LocalStorageService {
 
   constructor() {}
 
-  
+  saveDataUserLocalStorage(idUser : string){
 
-  saveDataUserLocalStorage(name: string, email: string, profile: string){
-    let data : any = {
-      "name" : name,
-      "email" : email,
-      "profile" : profile
-    }
-    localStorage.setItem("user",JSON.stringify(data));
+    localStorage.setItem("id_user", idUser);
     localStorage.setItem("stateLogin","true");
   }
 
 
-  private readDataUser() 
-  {
-    let data : any = "";
-    data = localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user") as string) : "";
-    return data;
-  }
 
-  get currentUser()
-  {
-    let data = this.readDataUser();
-    return data['name'];
-  }
-
-  get currentEmail()
-  {
-    let data = this.readDataUser();
-    return data['email'];
-  }
-
-  get currentProfile()
-  {
-    let data = this.readDataUser();
-    return data['profile'];
-  }
-
-  get stateLogin()
+  get stateLogin() : boolean
   {
     let state : any = localStorage.getItem("stateLogin") != null ? localStorage.getItem("stateLogin") : null;
     return JSON.parse(state);
+  }
+
+  get currentId() : string{
+    let data : any = localStorage.getItem("id_user") != null ? localStorage.getItem("id_user") : "";
+    return data;
   }
 
 }

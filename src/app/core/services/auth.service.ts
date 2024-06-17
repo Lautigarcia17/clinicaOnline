@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Auth, UserCredential, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { User } from '../class/user';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +20,12 @@ export class AuthService {
     return signOut(this.auth);
   }
 
-  verifiyEmail(user : any){
+  verifiyEmail(user : any) : Promise<void>{
     return sendEmailVerification(user);
+  }
+
+  currentUser() : string {
+    return this.auth.currentUser?.email ?? '';
   }
 
 }
