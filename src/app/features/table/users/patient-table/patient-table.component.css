@@ -1,0 +1,33 @@
+.no-clinic-history{
+    font-size: 15px;
+    color: #ff4c4c;
+    font-weight: 700;
+}
+
+/*MODAL*/
+.content-modal{
+    background-color: #242531 !important;
+    color: white;
+}
+
+.content-modal .modal-footer button{
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.content-modal .btn-equis{
+    background-color: transparent;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    padding: calc(var(--bs-modal-header-padding-y)* .5) calc(var(--bs-modal-header-padding-x)* .5);
+    margin: calc(-.5* var(--bs-modal-header-padding-y)) calc(-.5* var(--bs-modal-header-padding-x)) calc(-.5* var(--bs-modal-header-padding-y)) auto;
+}
+
+.modal-content .text-history{
+    color: #ff974c;
+    font-weight: 700;
+}
+

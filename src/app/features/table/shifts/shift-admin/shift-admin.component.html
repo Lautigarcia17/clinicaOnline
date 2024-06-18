@@ -44,7 +44,7 @@
                         @if (item.stateShift === 'pendiente') {
                           <textarea class="form-control" [id]="'messageText' + $index" placeholder="Escribe la reseña ..."></textarea>
                         }
-                        @else if (item.stateShift === 'cancelado') {
+                        @else if (item.stateShift === 'cancelado' || item.stateShift === 'rechazado') {
                           <textarea class="form-control" [id]="'messageText' + $index" [value]="item.review" readonly></textarea>
                         }
                       </div>

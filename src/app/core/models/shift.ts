@@ -4,7 +4,7 @@ export interface Shift {
     diagnosis : {
         comment : string,
         height : string,
-        medacationsOrPrecautions: string,
+        medicationsOrPrecautions: string,
         pressure: string,
         principalDiagnosis: string,
         temperature: string,

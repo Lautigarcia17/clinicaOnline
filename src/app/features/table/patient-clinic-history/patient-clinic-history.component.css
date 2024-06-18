@@ -1,0 +1,145 @@
+/* TABLE */
+
+.table-history{
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin; 
+    scrollbar-color: rgb(235 139 69) transparent;
+    border-radius: 20px;
+}
+
+.fl-table {
+    width: 100%;
+    max-width: 100%;
+    font-weight: 400;
+    border: none;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.fl-table td, .fl-table th {
+    text-align: center;
+    padding: 4px 4px;
+    font-size: 14px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 14px;
+    padding: 15px 0px;
+    color: black;
+}
+
+.fl-table td .txt-state{
+    display: inline-block;
+    font-weight: 700;
+}
+
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #ff974c;
+
+}
+
+.fl-table thead{
+    position: sticky;
+    top: 0;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #0062cc;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+
+.fl-table td button{
+    padding: 0px 8px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.fl-table td .text-state{
+    font-size: 20px;
+    color: gray;
+    font-weight: 700;
+    
+}
+
+
+
+/* Responsive */
+
+@media (max-width: 1800px) {
+    .fl-table {
+        display: block;
+        width: 100%;
+    }
+    .table-history{
+        width: 100%;
+    }
+    .fl-table thead, .fl-table tbody, .fl-table thead th {
+        display: block;
+    }
+    .fl-table thead th:last-child{
+        border-bottom: none;
+    }
+    .fl-table thead {
+        float: left;
+    }
+    .fl-table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgb(235 139 69) transparent;
+    }
+    .fl-table td, .fl-table th {
+        padding: 12px 4px;
+        overflow-y: auto;
+        font-size: 10px;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+    .fl-table thead th {
+        text-align: center;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .fl-table tbody tr {
+        display: table-cell;
+    }
+    .fl-table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .fl-table tr:nth-child(even) {
+        background: transparent;
+    }
+    .fl-table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tbody td {
+        display: block;
+        text-align: center;
+    }
+
+}
+
+
+
+.text-clinic-history{
+    text-align: center;
+    color: #ff974c;
+    font-weight: 900;
+}

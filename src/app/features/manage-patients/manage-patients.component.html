@@ -1,0 +1,39 @@
+<div class="content">
+    <div class="content-element">
+        <div class="inside-element">
+            @if(!viewClinicHistory && filteredShifts){
+                <div class="option">
+                    <h2 class="tittle-option">Seleccionar Paciente</h2>
+                    <div class="option-element">
+                        @for (item of filteredShifts; track $index) {
+                            @if (item.emailSpecialist === globalData.getCurrentUser().email && item.stateShift === 'completado') {
+    
+                                <button class="btn-patient"  (click)="chargeClinicHistory(item.emailPatient)">
+                                    <h4 class="name-patient">{{item.patient | firstCapitalLetter}} </h4>
+                                    <h5 class="email-patient">{{item.emailPatient}}</h5>
+                                </button>
+                            }
+                        }
+                        @empty {
+                            <div class="without-element">
+                                <h2> Sin pacientes</h2>
+                            </div>
+                        }                         
+                    </div>
+                </div>
+            }
+
+            @if (viewClinicHistory && patientSelected) {
+                <button class="btn-back" (click)="back()"><img class="img-back" src="../../../assets/backImage.png"></button>
+                <div class="text-center element-history">
+                    <h1 class="text-clinic-history">HISTORIA CLINICA </h1>
+                    <app-patient-clinic-history [arrayShifts]="filteredShifts" [user]="patientSelected"></app-patient-clinic-history>
+                </div>
+            }
+            
+
+
+        </div>
+    </div>
+</div> 
+

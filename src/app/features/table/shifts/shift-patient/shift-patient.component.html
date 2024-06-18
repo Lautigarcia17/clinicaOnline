@@ -59,7 +59,7 @@
                                         }
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                         @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
                                             <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" (click)="cancelShift($index,item.id,item.emailSpecialist,item.date,item.stateShift)">Enviar comentario y cancelar el turno</button>
                                         }

@@ -3,11 +3,14 @@ import { FirstCapitalLetterPipe } from '../../shared/pipes/first-capital-letter.
 import { GlobalDataService } from '../../core/services/global-data.service';
 import { DatabaseService } from '../../core/services/database.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientClinicHistoryComponent } from '../table/patient-clinic-history/patient-clinic-history.component';
+import { CommonModule } from '@angular/common';
+import { PdfService } from '../../core/services/pdf.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FirstCapitalLetterPipe],
+  imports: [FirstCapitalLetterPipe,PatientClinicHistoryComponent,CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -17,10 +20,13 @@ export default class ProfileComponent{
   aboutTabs! : HTMLButtonElement;
   viewShifts : boolean;
   flag : boolean;
+  viewClinicHistory : boolean;
 
-  constructor(public globalData : GlobalDataService, private database : DatabaseService, private toastr : ToastrService){
+
+  constructor(public globalData : GlobalDataService, private database : DatabaseService, private toastr : ToastrService, private pdf : PdfService){
     this.flag = false;
     this.viewShifts = false;
+    this.viewClinicHistory = false;
   }
 
   switchViewElement(element : string){
@@ -92,5 +98,29 @@ export default class ProfileComponent{
     return this.globalData.getCurrentUser().workDays.every((item: any) => daysWork.indexOf(item) !== -1);
   }
 
+  switchViewClinicHistory(){
+    this.viewClinicHistory = !this.viewClinicHistory;
+  }
+
+  downloadPdf(){
+    let tableData : Array<any> = [['Specialty','Specialist','Date','Height','Weight','Temperature','Pressure','Principal diagnosis', 'Medications / Precautions', 'Comment']]
+
+    for (let shift of this.globalData.getShifts()) {
+      if (shift.emailPatient == this.globalData.getCurrentUser().email && shift.stateShift === 'completado') {
+        let dataPatient = [shift.specialty, shift.specialist, this.convertDate(shift.date) ,shift.diagnosis.height ,shift.diagnosis.weight ,shift.diagnosis.temperature ,shift.diagnosis.pressure,
+                          shift.diagnosis.principalDiagnosis, shift.diagnosis.medicationsOrPrecautions, shift.diagnosis.comment]
+        tableData.push(dataPatient);
+      }
+    }
+    let namePdf = this.globalData.getCurrentUser().dni + '-historialClinico';
+
+    this.pdf.downloadPdf('Historial Clinico', tableData, 'Clinica Lautaro Nahuel Garcia' ,namePdf);
+  }
+
+  convertDate(date : Date){
+    let month = date.getMonth() == 12 ? 1 : date.getMonth() + 1;
+    
+    return date.getDate() + "/" + month + "/" + date.getFullYear();
+  }
 
 }

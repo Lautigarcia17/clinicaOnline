@@ -200,3 +200,52 @@
 .margin-top{
     margin-top: 10px;
 }
+
+
+/*  CLINIC HISTORY */
+
+.btn-history-end{
+    justify-content: end;
+}
+
+.btn-history{
+    margin-right: 15px;
+}
+
+.btn-history button{
+    background-color: transparent;
+    border: none;
+}
+
+.btn-history img{
+    width: 70px;
+    height: 70px;
+    transition: transform .3s ease-in-out;
+}
+
+.btn-history img:hover{
+    transform: scale(1.1);
+}
+.text-clinic-history{
+    text-align: center;
+    color: #ff974c;
+    font-weight: 900;
+    font-size: 35px;
+    margin-bottom: 40px;
+}
+
+.btn-pdf{
+    background-color: #ff3a3a;
+    color: whitesmoke;
+    font-size: 18px;
+    padding: 0px 18px;
+    border-radius: 20px;
+    margin-top: 40px;
+    margin-right: 20px;
+    height: 30px;
+}
+
+.btn-pdf:hover{
+    background-color: hsla(0, 100%, 61%, 0.856) ;
+    font-weight: 900;
+}

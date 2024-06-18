@@ -1,0 +1,36 @@
+<div class="table-history">
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>Especialidad</th>
+                <th>Especialista</th>
+                <th>Fecha</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Temperatura</th>
+                <th>Presion</th>
+                <th>Principal diagnostico</th>
+                <th>Medicamentos / Precauciones</th>
+                <th>Comentario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of arrayShifts; track $index) {
+                @if (item.emailPatient === user.email && item.stateShift === 'completado') {
+                    <tr>
+                        <td>{{item.specialty | firstCapitalLetter}}</td>
+                        <td>{{item.specialist | firstCapitalLetter}}</td>
+                        <td>{{item.date | date : 'd/M/yy'}}</td>
+                        <td>{{item.diagnosis.height}}</td>
+                        <td>{{item.diagnosis.weight}}</td>
+                        <td>{{item.diagnosis.temperature}}</td>
+                        <td>{{item.diagnosis.pressure}}</td>
+                        <td>{{item.diagnosis.principalDiagnosis}}</td>
+                        <td>{{item.diagnosis.medicationsOrPrecautions}}</td>
+                        <td>{{item.diagnosis.comment}}</td>
+                    </tr>
+                }
+            }          
+        </tbody>
+    </table>
+</div>

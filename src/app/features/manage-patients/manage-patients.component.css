@@ -1,0 +1,154 @@
+.content{
+    height: 100%;
+    width: 100%;
+    background-image: url('../../../assets/request.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.content-element{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.inside-element{
+    background: linear-gradient(to bottom right, #2d3748, #1a202c);
+    border-radius: 10%;
+    box-shadow: 0px 0px 50px whitesmoke;
+    width: 900px;
+    height: 550px;
+}
+.option{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 25px 15px 0px 15px;
+    margin-bottom: 10px;
+}
+
+.option-element{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: stretch;
+    height: 320px;
+    gap: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(16, 233, 179) transparent;
+    width: 100%;
+}
+
+
+
+.tittle-option{
+    color: white;
+    font-size: 40px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+
+.option-element .btn-patient{
+    background: linear-gradient(to top right, #3182ce, #63b3ed);
+    width: 150px;
+    height: 150px;
+    border-radius: 40px;
+    font-weight: 700;
+    transition: transform .3s ease-in-out;
+    z-index: 1;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+.option-element .btn-patient:hover{
+    font-weight: 900;
+    transform: scale(1.1);
+}
+
+.name-patient{
+    font-size: 25px;
+    color: white;
+    font-weight: 900;
+}
+
+.email-patient{
+    font-size: 10px;
+    color: white;
+}
+
+.option-element p{
+    font-size: 15px;
+    color: aquamarine;
+    margin: 0;
+}
+
+.without-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+}
+.without-element h2{
+    font-size: 55px;
+    font-weight: 900;
+    color: #4FC3A1;
+}
+
+.btn-back {
+    border: 3px solid black;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-left: 30px;
+    margin-top: 15px;
+  }
+
+.img-back{
+    width: 40px;
+    height: 40px;
+    transition: transform .3s ease-in-out;
+}
+
+.img-back:hover{
+    transform: scale(1.1);
+}
+
+
+
+
+
+.select-patient h2{
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.text-clinic-history{
+    text-align: center;
+    color: #ff974c;
+    font-weight: 900;
+    font-size: 35px;
+    margin-bottom: 40px;
+}
+
+.element-history{
+    padding: 22px 20px;
+}
+
+.specialty{
+    font-size: 15px;
+    color: #000000;
+    text-transform: uppercase;
+}

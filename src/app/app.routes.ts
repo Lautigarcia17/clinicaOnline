@@ -31,6 +31,9 @@ export const routes: Routes = [
           ,
           {
             path: 'shifts', loadComponent: () => import('./features/shifts/shifts/shifts.component'), canActivate: [authGuard],
+          },
+          {
+            path: 'patients', loadComponent: () => import('./features/manage-patients/manage-patients.component'), canActivate: [authGuard],
           }
         ]
       },

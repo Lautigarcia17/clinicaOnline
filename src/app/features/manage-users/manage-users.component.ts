@@ -7,13 +7,14 @@ import RegisterComponent from '../auth/register/register.component';
 import { AdminTableComponent } from '../table/users/admin-table/admin-table.component';
 import { SpecialistTableComponent } from '../table/users/specialist-table/specialist-table.component';
 import { PatientTableComponent } from '../table/users/patient-table/patient-table.component';
+import { ExcelService } from '../../core/services/excel.service';
 
 @Component({
   selector: 'app-manage-users',
   standalone: true,
   imports: [CommonModule,FirstCapitalLetterPipe,RegisterComponent,AdminTableComponent,SpecialistTableComponent,PatientTableComponent],
   templateUrl: './manage-users.component.html',
-  styleUrl: './manage-users.component.css'
+  styleUrls: ['./manage-users.component.css']
 })
 export default class ManageUsersComponent {
 
@@ -22,7 +23,7 @@ export default class ManageUsersComponent {
   viewSpecialist : boolean;
   viewAdministrator : boolean;
   
-  constructor( public globalData : GlobalDataService, private toastr : ToastrService){
+  constructor( public globalData : GlobalDataService, private toastr : ToastrService, private excel : ExcelService){
     this.stateNewUser = false;
     this.viewAdministrator = false;
     this.viewSpecialist = false;
@@ -52,5 +53,10 @@ export default class ManageUsersComponent {
     }
   }
 
+  downloadShiftExcel(){
+    this.excel.downloadExcel(this.globalData.getUsers());
+    this.toastr.success("Pacientes descargados!","FELICIDADES!", {timeOut: 3000,progressBar: true,closeButton:true});
+
+  }
 
 }
