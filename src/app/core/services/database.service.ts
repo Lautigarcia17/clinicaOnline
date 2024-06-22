@@ -48,6 +48,10 @@ export class DatabaseService {
         adminVerified: false,
         img: user.Img,
         workDays: [],
+        workHour : {
+          start : '',
+          end : ''
+        },
         shifts: []
       });
     }catch (error) {
@@ -124,8 +128,23 @@ export class DatabaseService {
     }
   }
 
-  getUsersDatabase() : Observable<any>{
-    return collectionData(collection(this.firestore,'users'),{idField: 'id'});
+  getUsersDatabase(): Observable<any[]> {
+    return collectionData(collection(this.firestore, 'users'), { idField: 'id' })
+      .pipe(
+        map((users: any[]) => 
+          users.map(user => {
+            if (user.workHour) {
+              if (user.workHour.start !== ''){
+                user.workHour.start = user.workHour.start.toDate(); 
+              }
+              if (user.workHour.end !== '') {
+                user.workHour.end = user.workHour.end.toDate(); 
+              }
+            }
+            return user;
+          })
+        )
+      );
   }
 
   getUser(email : string) : Observable<any>{
@@ -136,13 +155,29 @@ export class DatabaseService {
 
 
 
-  updateDaysWork(email: string, days: Array<string>) : void{
+  updateWorkDays(email: string, days: Array<string>) : void{
 
     try {
       getDocs(query(collection(this.firestore, 'users'), where("email", "==", email)))
       .then((querySnapshot: QuerySnapshot<DocumentData>) => {
         querySnapshot.forEach((doc) => {
           updateDoc(doc.ref, { workDays: days });
+        });
+      })
+
+    } catch (error) {
+      console.error("Error updating user verification by admin: ", error);
+    }
+  }
+
+  
+  updateWorkHour(email: string, start : Date, end : Date) : void{
+
+    try {
+      getDocs(query(collection(this.firestore, 'users'), where("email", "==", email)))
+      .then((querySnapshot: QuerySnapshot<DocumentData>) => {
+        querySnapshot.forEach((doc) => {
+          updateDoc(doc.ref, { workHour: { start : start, end:end} });
         });
       })
 

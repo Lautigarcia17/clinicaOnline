@@ -249,3 +249,20 @@
     background-color: hsla(0, 100%, 61%, 0.856) ;
     font-weight: 900;
 }
+
+
+
+.time-select {
+    width: 65%;
+    padding: 2px 18px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 3px;
+    text-align: center;
+}
+
+.label-time{
+    font-size: 16px;
+    color: white;
+}

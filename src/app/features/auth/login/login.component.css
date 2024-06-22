@@ -51,11 +51,10 @@
 .user-button {
     border: none;
     cursor: pointer;
-    width: 64px;
-    height: 50px;
-    border-radius: 20%;
+    width: 80px;
+    height: 40px;
     overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px #0000004d;
 }
 
 .user-button:hover{

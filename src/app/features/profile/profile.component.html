@@ -95,6 +95,19 @@
                                                 <p>{{globalData.getCurrentUser().specialty}}</p>
                                             </div>
                                         </div>
+                                        @if (globalData.getCurrentUser().workHour && globalData.getCurrentUser().workHour.start !== '') {
+                                            <div class="profile-row">
+                                                <div class="profile-column">
+                                                    <label class="data-user">Franja horaria</label>
+                                                </div>
+                                                <div class="profile-column">
+                                                    <p>{{globalData.getCurrentUser().workHour.start.getHours()}}:{{globalData.getCurrentUser().workHour.start.getMinutes() | formatDoubleZero}} - 
+                                                    {{globalData.getCurrentUser().workHour.end.getHours()}}:{{globalData.getCurrentUser().workHour.end.getMinutes() | formatDoubleZero}} 
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+
                                         <hr>
                                         <div class="profile-row">
                                             <div class="profile-column text-center">
@@ -156,10 +169,39 @@
                                                 <label for="sabado">Sabado</label><br>
                                             </div>
                                         </div>
+
+
+                                        <div class="profile-row">
+                                            <div class="profile-column">
+                                                <label for="start-time" class="label-time">Hora de inicio:</label>
+                                                <select id="start-time" class="time-select" (change)="onStartTimeChange($event)">
+                                                    @for (item of timeSlotsStart; track $index) {
+                                                        @if (timeSlotsStart.length-1 !== $index) {
+                                                            <option [value]="$index"  [selected]="item.getHours() === startTime.getHours() && item.getMinutes() === startTime.getMinutes()" >{{item.getHours()}} : {{item.getMinutes() | formatDoubleZero}}</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                            @if (startTime) {
+                                                <div class="profile-column">
+                                                    <label for="end-time" class="label-time">Hora de fin:</label>
+                                                    <select id="end-time" class="time-select" (change)="onEndTimeChange($event)" [disabled]="!timeSlotsEnd.length">
+                                                        @if (timeSlotsEnd.length > 0) {
+                                                            @for (item of timeSlotsEnd; track $index) {
+                                                                <option [value]="$index" [selected]="item.getHours() === endTime.getHours() && item.getMinutes() === endTime.getMinutes()">{{item.getHours()}} : {{item.getMinutes() | formatDoubleZero}}</option>          
+                                                            }
+                                                        }
+    
+                                                    </select>
+                                                </div>
+                                            }
+
+                                        </div>
+
                                         <div class="profile-row">
                                             <div class="profile-column btn-shifts">
                                                 <button class="btn colour-clear" (click)="clearCheckbox()">Limpiar</button>
-                                                <button class="btn colour-save" (click)="saveDaysWork()">Guardar</button>
+                                                <button class="btn colour-save" (click)="saveDataWork()">Guardar</button>
                                             </div>
                                         </div>
                                     </div>

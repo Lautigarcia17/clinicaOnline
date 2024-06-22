@@ -6,11 +6,13 @@ import { ToastrService } from 'ngx-toastr';
 import { PatientClinicHistoryComponent } from '../table/patient-clinic-history/patient-clinic-history.component';
 import { CommonModule } from '@angular/common';
 import { PdfService } from '../../core/services/pdf.service';
+import { FormatDoubleZeroPipe } from '../../shared/pipes/format-double-zero.pipe';
+import { DayScheduleService } from '../../core/services/day-schedule.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FirstCapitalLetterPipe,PatientClinicHistoryComponent,CommonModule],
+  imports: [FirstCapitalLetterPipe,PatientClinicHistoryComponent,CommonModule,FormatDoubleZeroPipe,CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -21,13 +23,20 @@ export default class ProfileComponent{
   viewShifts : boolean;
   flag : boolean;
   viewClinicHistory : boolean;
+  timeSlotsStart!: Array<any>;
+  timeSlotsEnd!: Array<any>;
+  startTime!: Date;
+  endTime!: Date;
 
 
-  constructor(public globalData : GlobalDataService, private database : DatabaseService, private toastr : ToastrService, private pdf : PdfService){
+  constructor(public globalData : GlobalDataService, private database : DatabaseService, private toastr : ToastrService, private pdf : PdfService, private daySchedule : DayScheduleService){
     this.flag = false;
     this.viewShifts = false;
     this.viewClinicHistory = false;
   }
+
+
+
 
   switchViewElement(element : string){
 
@@ -47,7 +56,9 @@ export default class ProfileComponent{
     else{
       this.aboutTabs.classList.remove("active");
       this.shiftTabs.classList.add("active");
-      this.setDaysWork();
+      this.setWorkDays();
+      this.setWorkHour();
+      this.generateTimeSlots();
       this.viewShifts = true;
     }
   }
@@ -61,7 +72,7 @@ export default class ProfileComponent{
     })
   }
 
-  setDaysWork(){
+  setWorkDays(){
     if (this.globalData.getCurrentUser().workDays.length > 0) {
       this.checkboxes.forEach(item =>{
         for (let day of this.globalData.getCurrentUser().workDays) {
@@ -73,30 +84,8 @@ export default class ProfileComponent{
     }
   }
 
-  saveDaysWork(){
-    let daysWork : Array<string> = [];
-    this.checkboxes.forEach(item =>{
-        if (item.checked) {
-          daysWork.push(item.value);
-        }
-    })
-    if(!this.areEqualsDays(daysWork))
-    {
-      this.database.updateDaysWork(this.globalData.getCurrentUser().email,daysWork);
-      this.toastr.success("Los dias fueron guardados!","FELICIDADES!", {timeOut: 3000,progressBar: true,closeButton:true});
-      this.switchViewElement('about');
-    }
-    else{
-      this.toastr.error("Son los mismos dias!","Aviso!", {timeOut: 3000,progressBar: true,closeButton:true});
-    }
-  }
 
-  areEqualsDays(daysWork : Array<string>){  // true if the arrays are equal, false otherwise
-    if (this.globalData.getCurrentUser().workDays.length !== daysWork.length) {
-      return false;
-    }
-    return this.globalData.getCurrentUser().workDays.every((item: any) => daysWork.indexOf(item) !== -1);
-  }
+
 
   switchViewClinicHistory(){
     this.viewClinicHistory = !this.viewClinicHistory;
@@ -123,4 +112,79 @@ export default class ProfileComponent{
     return date.getDate() + "/" + month + "/" + date.getFullYear();
   }
 
+
+
+  generateTimeSlots(): void {
+    let date: Date = new Date();
+    date.setHours(8);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    let closingTime: number = 19;
+  
+    do {
+      this.timeSlotsStart.push(new Date(date));
+      date.setMinutes(date.getMinutes() + 30);
+    } while (date.getHours() !== closingTime);
+    this.updateEndTimeSlots(this.startTime);
+  }
+  
+
+  
+  onStartTimeChange(event: any): void {
+    this.startTime = this.timeSlotsStart[event.target.value];
+    this.updateEndTimeSlots(this.startTime);
+  }
+  
+  onEndTimeChange(event: any): void {
+    this.endTime = this.timeSlotsEnd[event.target.value];
+  }
+
+  updateEndTimeSlots(startTime: Date): void {
+    const startIndex = this.timeSlotsStart.findIndex(time => time.getHours() === startTime.getHours() && time.getMinutes() === startTime.getMinutes());
+    this.timeSlotsEnd = [...this.timeSlotsStart.slice(startIndex + 1)];
+  }
+
+  setWorkHour(){
+
+    if(this.globalData.getCurrentUser().workHour && this.globalData.getCurrentUser().workHour.start !== ''){
+      this.startTime = this.globalData.getCurrentUser().workHour.start;
+      this.endTime = this.globalData.getCurrentUser().workHour.end;
+    }
+    else{
+      this.startTime = new Date();
+      this.endTime = new Date();
+      this.startTime .setHours(8);
+      this.startTime .setMinutes(0);
+      this.startTime .setSeconds(0);
+      this.endTime .setHours(8);
+      this.endTime .setMinutes(0);
+      this.endTime .setSeconds(0);
+    }
+
+    this.timeSlotsEnd = [];
+    this.timeSlotsStart = [];
+  }
+
+  saveDataWork(){
+    let daysWork : Array<string> = [];
+    this.checkboxes.forEach(item =>{
+        if (item.checked) {
+          daysWork.push(item.value);
+        }
+    })
+    if(!this.daySchedule.areEqualsDays(this.globalData.getCurrentUser().workDays,daysWork)  || (this.globalData.getCurrentUser().workHour.start === "" || !this.daySchedule.areEqualsHour(this.globalData.getCurrentUser().workHour,this.startTime,this.endTime)))
+    {
+      this.database.updateWorkDays(this.globalData.getCurrentUser().email,daysWork);
+      this.database.updateWorkHour(this.globalData.getCurrentUser().email,this.startTime,this.endTime);
+      this.toastr.success("Los dias fueron guardados!","FELICIDADES!", {timeOut: 3000,progressBar: true,closeButton:true});
+      this.switchViewElement('about');
+    }
+    else{
+      this.toastr.error("Son los mismos datos!","Aviso!", {timeOut: 3000,progressBar: true,closeButton:true});
+    }
+
+  }
+
 }
+
+

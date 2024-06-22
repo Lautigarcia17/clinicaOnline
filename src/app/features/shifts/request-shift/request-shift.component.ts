@@ -65,18 +65,20 @@ export default class RequestShiftComponent implements OnInit{
   }
 
 
-  setSchedules(day : Date) : void{
-    let date = new Date(day);
-    let closingTime = this.daySchedule.getNameDay(date) == 'Sabado' ? 14 : 19;
-    this.stateSchedules = true;
+  setDays(user : any) : void{
+    let date : Date = new Date(2024,5,24,11,0);
+    let closingTime : number = this.daySchedule.getNameDay(date) == 'Sabado' ? 14 : 19;
+    this.specialistSelected = user;
+    this.stateDays = true;
 
-    if(date.getHours() >= closingTime){
+    if((date.getHours() >= closingTime || date.getHours() + 1 >= closingTime) || date.getHours() >= this.specialistSelected.workHour.end.getHours()){ // no se pueden reservar turnos 1 hora antes del turno
+      console.log('No hay turnos después de esta hora, se le mostrara los del día siguiente');
       if (closingTime == 14) {
         date.setDate(date.getDate()+2);
       }else{
         date.setDate(date.getDate()+1);
       }
-      console.log('No hay turnos después de esta hora, se le mostrara los del día siguiente');
+      
       date.setMinutes(0);
       date.setHours(8);
     }else if (date.getMinutes() >= 30) {
@@ -88,12 +90,40 @@ export default class RequestShiftComponent implements OnInit{
     }
     date.setSeconds(0);
 
-    do{
-      if (this.daySchedule.isScheduleAvailable(date,this.specialistSelected)) {
-        this.hours.push(new Date(date));
+
+    if (user.workDays.length > 0) {
+      for (let index = 0; index < 15; index++) {
+        if (user.workDays.includes( this.daySchedule.getNameDay(date) )) {
+          this.daysForShifts.push(new Date(date));
+        }   
+        date.setDate(date.getDate() + 1);
+        date.setHours(8)
+        date.setMinutes(0);
       }
-      date.setMinutes(date.getMinutes() + 30);
-    } while (date.getHours() !=closingTime);
+    }
+  }
+
+  setSchedules(day : Date) : void{
+
+    if(this.specialistSelected.workHour.start !==''){
+      let date = new Date(day);
+      let closingTime = this.daySchedule.getNameDay(date) == 'Sabado' ? 14 : 19;
+      this.stateSchedules = true;
+      date.setHours(this.specialistSelected.workHour.start.getHours());
+      date.setMinutes(this.specialistSelected.workHour.start.getMinutes());
+
+      
+      do{
+        if (this.daySchedule.isScheduleAvailable(date,this.specialistSelected)) {
+          this.hours.push(new Date(date));
+        }
+        date.setMinutes(date.getMinutes() + 30);
+      } while (date.getHours() !=closingTime &&  (date.getHours() <= this.specialistSelected.workHour.end.getHours()) );
+    }
+    else{
+      this.toastr.error("El especialista no tiene franja horaria cargada!","AVISO!", {timeOut: 3000,progressBar: true,closeButton:true});
+    }
+
 
   }
 
@@ -130,42 +160,9 @@ export default class RequestShiftComponent implements OnInit{
           this.setDefaultValues();
         }
     })
-
-
-
-
   }
 
-  setDays(user : any) : void{
-    let date : Date = new Date();
-    let closingTime : number = this.daySchedule.getNameDay(date) == 'Sabado' ? 14 : 19;
-    this.specialistSelected = user;
-    this.stateDays = true;
-  
-    if(date.getHours() >= closingTime){
-      console.log('No hay turnos después de esta hora, se le mostrara los del día siguiente');
-      if (closingTime == 14) {
-        date.setDate(date.getDate()+2);
-      }else{
-        date.setDate(date.getDate()+1);
-      }
-      
-      date.setMinutes(0);
-      date.setHours(8);
-    }
 
-
-    if (user.workDays.length > 0) {
-      for (let index = 0; index < 15; index++) {
-        if (user.workDays.includes( this.daySchedule.getNameDay(date) )) {
-          this.daysForShifts.push(new Date(date));
-        }   
-        date.setDate(date.getDate() + 1);
-        date.setHours(8)
-        date.setMinutes(0);
-      }
-    }
-  }
 
 
 

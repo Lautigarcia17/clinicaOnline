@@ -32,4 +32,21 @@ export class DayScheduleService {
           dateOne.getHours() == dateTwo.getHours() &&  dateOne.getMinutes() == dateTwo.getMinutes();
   }
 
+  areEqualsDays(currentDays : Array<string>,workDays : Array<string>){ 
+    if (currentDays.length !== workDays.length) {
+      return false;
+    }
+    return currentDays.every((item: any) => workDays.indexOf(item) !== -1);
+  }
+
+  areEqualsHour(currentHours : {start : any; end : any}, start : Date, end : Date){ 
+
+    currentHours.start = currentHours.start instanceof Date  ? currentHours.start : currentHours.start.toDate();
+    currentHours.end = currentHours.end instanceof Date  ? currentHours.end : currentHours.end.toDate();
+
+
+    return (currentHours.start.getHours() == start.getHours()  && currentHours.start.getMinutes() == start.getMinutes()) &&
+           (currentHours.end.getHours() == end.getHours()  && currentHours.end.getMinutes() == end.getMinutes());
+  }
+
 }
