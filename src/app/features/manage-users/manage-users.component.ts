@@ -8,13 +8,23 @@ import { AdminTableComponent } from '../table/users/admin-table/admin-table.comp
 import { SpecialistTableComponent } from '../table/users/specialist-table/specialist-table.component';
 import { PatientTableComponent } from '../table/users/patient-table/patient-table.component';
 import { ExcelService } from '../../core/services/excel.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-manage-users',
   standalone: true,
   imports: [CommonModule,FirstCapitalLetterPipe,RegisterComponent,AdminTableComponent,SpecialistTableComponent,PatientTableComponent],
   templateUrl: './manage-users.component.html',
-  styleUrls: ['./manage-users.component.css']
+  styleUrls: ['./manage-users.component.css'],
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ transform: 'translateY(-100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 0.2}))
+      ]),
+
+    ])
+  ]
 })
 export default class ManageUsersComponent {
 

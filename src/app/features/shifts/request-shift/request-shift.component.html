@@ -7,7 +7,7 @@
                         <h2 class="tittle-option">Seleccionar Especialidad</h2>
                         <div class="option-element">
                             @for (item of specialtysCharged; track $index) {
-                                <button  class="btn-specialty" (click)="setSpecialist(item.name)">{{item.name| firstCapitalLetter}}</button>
+                                <button  class="btn-specialty" style='background-image: url({{item.img}});' (click)="setSpecialist(item.name)"></button>
                             }
                             @empty {
                                 <div class="without-element">
@@ -43,23 +43,12 @@
                                 <div class="option-element">
                                     @for (item of globalData.getUsers(); track $index) {
                                         @if (item.profile === 'especialista' && ( item.specialty[0] === (specialtySearched | lowercase) || item.specialty[1] === (specialtySearched | lowercase))) {
-        
-                                            <button class="btn-specialist" style='background-image: url({{item.img}});' (click)="setDays(item)" [disabled]="!item.workDays.length">
+                                            <div class="option-button">
+                                                <button class="btn-specialist" style='background-image: url({{item.img}});' (click)="setDays(item)" [disabled]="!item.workDays.length"></button>
                                                 <h4 class="name-specialist">{{item.name | firstCapitalLetter}} {{item.surname | firstCapitalLetter}}</h4>
-                                                <h5 class="age-specialist">{{item.age}} años</h5>
-                                                <p>Dias de trabajo</p>
-                                                <div class="col-md-12 work-days-container">
-                                                    @for (day of item.workDays; track $index) {
-                                                        <div class="work-day-item">{{day}}</div>
-                                                        @if ($index < item.workDays.length - 1) {
-                                                            <div  class="work-day-slash">/</div>
-                                                        }
-                                                    }
-                                                    @empty {
-                                                        <div style="color: red;" class="work-day-item">Sin dias laborales disponibles</div>
-                                                    }
-                                                </div>
-                                            </button>
+                                            </div>
+
+
                                         }
                                     }
                                 </div>
@@ -80,8 +69,7 @@
                         <div class="option-days">
                             @for (item of daysForShifts; track $index) {
                                 <button class="btn-day" (click)="setSchedules(item)">
-                                    <h4>{{item | dayName}}</h4>
-                                    <h5>{{item.getDate()}} / {{item.getMonth() | adjustMonthNumber}} / {{item.getFullYear()}}</h5>
+                                    <h5>{{item | formatDate}}</h5>
                                 </button>
                             }
                         </div>
@@ -94,7 +82,7 @@
                         <h2 class="tittle-option"> Seleccionar horario</h2>
                         <div class="option-schedules">
                             @for (item of hours; track $index) {
-                                <button class="btn-schedules" (click)="saveShift(item)">{{item.getHours()}} : {{item.getMinutes() | formatDoubleZero}}</button>
+                                <button class="btn-schedules" (click)="saveShift(item)">{{item | formatTime}}</button>
                             }
                         </div>
                     </div>

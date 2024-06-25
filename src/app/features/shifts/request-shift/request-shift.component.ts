@@ -9,14 +9,14 @@ import { FirstCapitalLetterPipe } from '../../../shared/pipes/first-capital-lett
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DayNamePipe } from '../../../shared/pipes/day-name.pipe';
-import { AdjustMonthNumberPipe } from '../../../shared/pipes/adjust-month-number.pipe';
-import { FormatDoubleZeroPipe } from '../../../shared/pipes/format-double-zero.pipe';
 import { Specialty } from '../../../core/models/specialty';
+import { FormatDatePipe } from '../../../shared/pipes/format-date.pipe';
+import { FormatTimePipe } from '../../../shared/pipes/format-time.pipe';
 
 @Component({
   selector: 'app-request-shift',
   standalone: true,
-  imports: [CommonModule,FormsModule,FirstCapitalLetterPipe,DayNamePipe,AdjustMonthNumberPipe,FormatDoubleZeroPipe],
+  imports: [CommonModule,FormsModule,FirstCapitalLetterPipe,DayNamePipe,FormatDatePipe,FormatTimePipe],
   templateUrl: './request-shift.component.html',
   styleUrl: './request-shift.component.css'
 })

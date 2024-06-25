@@ -18,20 +18,27 @@
     
         <!-- PATIENT -->
          @if (viewPatient) {
-            <app-patient-table [users]="globalData.getUsers()"></app-patient-table>
+            <div [@slideDown]>
+                <app-patient-table [users]="globalData.getUsers()"></app-patient-table>
+            </div>
          }
     
     
         <!-- SPECIALIST -->
         @if (viewSpecialist) {
-            <app-specialist-table [users]="globalData.getUsers()"></app-specialist-table>
+            <div [@slideDown]>
+                <app-specialist-table [users]="globalData.getUsers()"></app-specialist-table>
+            </div>
         }
     
     
     
         <!-- ADMINISTRATOR -->
          @if (viewAdministrator) {
-           <app-admin-table [users]="globalData.getUsers()"></app-admin-table>
+            <div [@slideDown]>
+                <app-admin-table [users]="globalData.getUsers()"></app-admin-table>
+
+            </div>
         }
     
         
