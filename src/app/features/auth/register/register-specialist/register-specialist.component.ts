@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FirstCapitalLetterPipe } from '../../../../shared/pipes/first-capital-letter.pipe';
 import { RecaptchaService } from '../../../../core/services/recaptcha.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { Specialty } from '../../../../core/models/specialty';
 
 @Component({
   selector: 'app-register-specialist',
@@ -21,7 +22,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 })
 export class RegisterSpecialistComponent implements OnInit{
   @Input() dniCharged! : number[];
-  specialtyCharged! : string[]
+  specialtyCharged! : Array<Specialty>
   img : File | undefined;
 
 
@@ -29,7 +30,7 @@ export class RegisterSpecialistComponent implements OnInit{
 
   ngOnInit(): void {
     this.database.getSpecialty()
-    .subscribe( (specialty : string[]) =>{
+    .subscribe( (specialty : Array<Specialty>) =>{
       this.specialtyCharged = specialty;
     })
   }

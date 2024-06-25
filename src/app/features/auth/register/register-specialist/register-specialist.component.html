@@ -95,7 +95,7 @@
                         <select style="margin-bottom: 10px;" formControlName="specialty" name="specialty" (change)="onValueChange()">
                             <option value="" selected disabled hidden>Selecciona una opcion</option>
                             @for (item of specialtyCharged; track $index) {
-                                <option  value="{{item}}">{{item | firstCapitalLetter}}</option>
+                                <option  value="{{item.name}}">{{item.name| firstCapitalLetter}}</option>
                             }
                         </select>
                         @if (formUser.get('specialty')?.hasError('required') && formUser.get('specialty')?.touched) {
@@ -108,8 +108,8 @@
                             <select  name="specialty" formControlName="secondSpecialty">
                                 <option value="">No</option>
                                 @for (item of specialtyCharged; track $index) {
-                                    @if (item !== formUser.get('specialty')?.value) {
-                                        <option  value="{{item}}">{{item | firstCapitalLetter}}</option>
+                                    @if (item.name !== formUser.get('specialty')?.value) {
+                                        <option  value="{{item.name}}">{{item.name| firstCapitalLetter}}</option>
                                     }
                                 }
                             </select>
@@ -162,4 +162,3 @@
             </div>
         </form>
     </div>
-

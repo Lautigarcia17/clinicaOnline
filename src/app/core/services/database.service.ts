@@ -6,6 +6,7 @@ import { Administrator } from '../class/administrator';
 import { ref, uploadBytes,Storage, getDownloadURL } from '@angular/fire/storage';
 import { Observable, map, take } from 'rxjs';
 import { Shift } from '../models/shift';
+import { Specialty } from '../models/specialty';
 
 ;
 
@@ -103,15 +104,15 @@ export class DatabaseService {
     try{
       addDoc(collection(this.firestore,"specialty"),{
         name: specialty,
+        img : 'https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fspecialtys%2Fdoctor.jpg?alt=media&token=72c4f933-1b4f-4867-8d63-367baf408ca2'
       });
     }catch (error) {
       console.error("Error adding document: ", error);
     }
   }
 
-  getSpecialty() : Observable<string[]>{
-    return collectionData(collection(this.firestore,'specialty'))
-    .pipe( map(specialtys => specialtys.map((specialty : any) => specialty['name'])  ) )
+  getSpecialty() : Observable<Specialty[]>{
+    return collectionData(collection(this.firestore,'specialty')) as Observable<Specialty[]>
   }
 
   updateVerificationByAdmin(dni: number, state: boolean) : void{
@@ -219,12 +220,12 @@ export class DatabaseService {
         qualification : '',
         diagnosis : {
           principalDiagnosis : '',
-          medicationsOrPrecautions : '',
           comment : '',
           height : '',
           weight : '',
           temperature : '',
-          pressure : ''
+          pressure : '',
+          additionalData : {},
         },
 
       });
@@ -311,12 +312,12 @@ export class DatabaseService {
 
   }
 
-  saveDiagnosis(id : string, principalDiagnosis : string, medicationsOrPrecautions : string, comment : string, height : number, weight : number, temperature : number, pressure : number) : void{
+  saveDiagnosis(id : string, principalDiagnosis : string, comment : string, height : number, weight : number, temperature : number, pressure : number,additionalData : { [key: string]: string }) : void{
     
     try{
       const docRef = doc(this.firestore, 'shifts',id)
-      updateDoc(docRef,{ diagnosis: {principalDiagnosis : principalDiagnosis, medicationsOrPrecautions : medicationsOrPrecautions, comment : comment, 
-        height : height, weight : weight , temperature : temperature, pressure : pressure} })
+      updateDoc(docRef,{ diagnosis: {principalDiagnosis : principalDiagnosis, comment : comment, 
+        height : height, weight : weight , temperature : temperature, pressure : pressure, additionalData : additionalData} })
     }
     catch (error) {
       console.error('Error updating state of shift: ', error);

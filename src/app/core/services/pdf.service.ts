@@ -16,32 +16,31 @@ export class PdfService {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    // Adding image
+
     const imageData = await this.transformImage('../../assets/clinic.jpg');
     doc.addImage(imageData, 'PNG', (pageWidth - 50) / 2, 10, 50, 50);
 
-    // Adding title
     doc.setFontSize(20);
     doc.setTextColor('#4FC3A1');
     doc.text(title, pageWidth / 2, 70, { align: 'center' });
 
-    // Adding table with autoTable
-    doc.setTextColor(0); // Set color to black for table
+ 
+    doc.setTextColor(0); 
     const tableY = 80;
     autoTable(doc, {
       startY: tableY,
       head: [tableData[0]],
       body: tableData.slice(1),
-      styles: { fontSize: 8, textColor: 0 }, // Font size and color for table
+      styles: { fontSize: 8, textColor: 0 }, 
     });
 
-    // Get the final Y position after the table
+    
     const finalY = (doc as any).lastAutoTable.finalY || tableY;
 
 
     doc.setFontSize(10);
-    doc.setTextColor(0); // Ensure date is black
-    doc.text('Emission date : ' + todayDate.toLocaleString(), 10, finalY + 10);
+    doc.setTextColor(0); 
+    doc.text('Fecha de emision : ' + todayDate.toLocaleString(), 10, finalY + 10);
 
 
     doc.setTextColor(200); 

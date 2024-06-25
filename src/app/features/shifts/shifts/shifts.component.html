@@ -16,53 +16,6 @@
   @else{
     <app-shift-patient [arrayShifts]="globalData.getShifts()" [cancelFunction]="cancelShift" [searchFilter]="searchFilter"></app-shift-patient>
   }
-
-
-
-
-
+  
 </div>
 
-
-    
-
-
-<!-- 
-  
-  <input type="text" [(ngModel)]="search">
-
-  <div class="table-wrapper">
-    <table class="fl-table">
-        <thead>
-        <tr>
-          <th>Especialidad</th>
-          <th>Especialista</th>
-          <th>Paciente</th>
-          <th>Fecha</th>
-          <th>Hora</th>
-          <th>Email especialista</th>
-          <th>Email paciente</th>
-          <th>Estado del turno</th>
-          <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-          @for (item of globalData.getShifts() | filter : search : globalData.getProfile(); track $index) {
-              <tr>
-                <td>{{item.specialty }}</td>
-                <td>{{item.specialist }}</td>
-                <td>{{item.patient}}</td>
-                <td>{{item.date | date : 'd/M/yy'}}</td>
-                <td>{{item.date | date : 'HH:mm a'}}</td>
-                <td>{{item.emailSpecialist}}</td>
-                <td>{{item.emailPatient}}</td>
-                <td><p class="txt-state">{{ item.stateShift  }}</p></td>
-              </tr>
-          }
-          @empty {
-            <h1>Sin resultados</h1>
-          }
-        <tbody>
-    </table>
-  </div>
--->

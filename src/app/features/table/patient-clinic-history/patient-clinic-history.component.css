@@ -143,3 +143,15 @@
     color: #ff974c;
     font-weight: 900;
 }
+.fl-table td.additional-data {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.fl-table td.additional-data .additional-data-item {
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    margin: 0 auto;
+}

@@ -19,7 +19,7 @@
                         <td>{{item.specialty | firstCapitalLetter}}</td>
                         <td>{{item.specialist | firstCapitalLetter}}</td>
                         <td>{{item.date | date : 'd/M/yy'}}</td>
-                        <td>{{item.date | date : 'HH:mm a'}}</td>
+                        <td>{{item.date | date : 'HH:mm'}}</td>
                         <td>{{item.emailSpecialist}}</td>
                         <td><p class="txt-state" [ngClass]="{ 'text-red': item.stateShift === 'cancelado' || item.stateShift === 'rechazado' , 'text-blue': item.stateShift === 'pendiente', 'text-green': item.stateShift === 'completado', 'text-green-light' : item.stateShift === 'aceptado' }">{{ item.stateShift | firstCapitalLetter }}</p></td>
                         <td class="order-button">
@@ -193,7 +193,20 @@
                                                 <input type="number" value="{{item.diagnosis.temperature}}" readonly>
                                                 <input type="number" value="{{item.diagnosis.pressure}}" readonly>
                                             </div>
-    
+                                            
+                                            <div class="mt-2">
+                                                <div class="data-vital-signs">
+                                                  @for (item of item.diagnosis.additionalData | keyvalue; track $index) {
+                                                    <label class="data">{{item.key}}</label>
+                                                    
+                                                  }
+                                                </div>
+                                                <div class="data-vital-signs">
+                                                  @for (item of item.diagnosis.additionalData | keyvalue; track $index) {
+                                                    <textarea  cols="10" rows="1" [value]="item.value" readonly></textarea>
+                                                  }
+                                                </div>
+                                              </div>
     
                                             <div><p style="color: white;text-align: center;">_______________________</p></div>
                                         
@@ -203,13 +216,6 @@
                                             </div>
     
                                             <div><p style="color: white;text-align: center;">_______________________</p></div>
-    
-                                            <div class="mt-2">
-                                                <label  class="question-label">Medicacion o precauciones</label>
-                                                <textarea name="medicationsOrPrecautions" id="medicationsOrPrecautions" cols="50" rows="1" readonly>{{item.diagnosis.medicationsOrPrecautions}}</textarea>
-                                            </div>
-    
-                                            <div clas><p style="color: white;text-align: center;">_______________________</p></div>
                                         
                                             <div class="mt-2">
                                                 <label class="question-label">Comentario del especialista</label>

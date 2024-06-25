@@ -107,6 +107,26 @@
                                   <input type="number" formControlName="temperature" min="25" max="50" placeholder="°C">
                                   <input type="number" formControlName="pressure" min="40" max="200" placeholder="PA">
                                 </div>
+                               
+                                  
+                                  <div class="mt-2">
+                                    <div class="data-vital-signs">
+                                      @for (item of item.diagnosis.additionalData | keyvalue; track $index) {
+                                        <label class="data">{{item.key}}</label>
+                                        
+                                      }
+                                    </div>
+                                    <div class="data-vital-signs">
+                                      @for (item of item.diagnosis.additionalData | keyvalue; track $index) {
+                                        <textarea  cols="10" rows="1" [value]="item.value" readonly></textarea>
+                                      }
+                                    </div>
+                                  </div>
+
+                                
+                                
+
+
                                 <!-- Validations -->
                                 @if (formDiagnosis.get('height')?.hasError('required')) {
                                   <div class="validation-message"  [hidden]="formDiagnosis.get('height')?.pristine">La altura es requerida</div>
@@ -134,7 +154,7 @@
 
 
                               </div>
-
+                              <button class="problem-add" [attr.data-bs-target]="'#additionalDataModal' + $index" data-bs-toggle="modal" [disabled]="hasThreeLoadedValues(item.diagnosis.additionalData)">Agregar problema</button>
                               <div><p style="color: white;">_______________________</p></div>
      
 
@@ -144,16 +164,6 @@
                                 @if (formDiagnosis.get('principalDiagnosis')?.hasError('required')) {
                                   <div class="validation-message"  [hidden]="formDiagnosis.get('principalDiagnosis')?.pristine">El diagnostico es requerido</div>
                                 } 
-                              </div>
-    
-                              <div><p style="color: white;">_______________________</p></div>
-    
-                              <div class="mt-2">
-                                  <label  class="question-label">Medicacion o precauciones</label>
-                                  <textarea name="medicationsOrPrecautions" id="medicationsOrPrecautions" cols="50" rows="1" formControlName="medicationsOrPrecautions"></textarea>
-                                  @if (formDiagnosis.get('medicationsOrPrecautions')?.hasError('required')) {
-                                    <div class="validation-message"  [hidden]="formDiagnosis.get('medicationsOrPrecautions')?.pristine">La medicacion o precaucion es requerida</div>
-                                  } 
                               </div>
     
                               <div><p style="color: white;">_______________________</p></div>
@@ -170,16 +180,45 @@
                             
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                              <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" [disabled]="formDiagnosis.invalid" (click)="sendDiagnosis(item.id,item.emailSpecialist,item.date)">Enviar diagnostico</button>
+                              <button type="button" class="btn btn-primary" id="btnSend" data-bs-dismiss="modal" [disabled]="formDiagnosis.invalid" (click)="sendDiagnosis(item.id,item.emailSpecialist,item.date,item.diagnosis.additionalData)">Enviar diagnostico</button>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
                     <!--  -->
+
+                    <!-- ADDITIONAL DATA -->
+                    <div class="modal fade" [id]="'additionalDataModal' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-labelledby="exampleModalToggleLabel2" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content content-modal">
+                          <div class="modal-header">
+                            <h1 class="modal-title" id="exampleModalToggleLabel2">Datos adicionales</h1>
+                            <button type="button" class="btn-close" [attr.data-bs-target]="'#diagnosis' + $index" data-bs-toggle="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="additionalKey" class="question-label">Nombre del Problema</label>
+                              <input type="text" id="additionalKey" class="form-control" [(ngModel)]="newKey">
+                            </div>
+                            <div class="mb-3">
+                              <label for="additionalValue" class="question-label">Comentario</label>
+                              <input type="text" id="additionalValue" class="form-control" [(ngModel)]="newValue">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" [attr.data-bs-target]="'#diagnosis' + $index" data-bs-toggle="modal" data-bs-dismiss="modal">Volver al diagnostico</button>
+                            <button class="btn btn-primary" [attr.data-bs-target]="'#diagnosis' + $index" data-bs-toggle="modal" data-bs-dismiss="modal" (click)="addAdditionalData(item)" [disabled]="newValue =='' || newKey == '' ">Guardar problema</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
     
                   </td> 
                
+
+
+
                 }
               </tr>
             }
@@ -193,3 +232,10 @@
   </div>
   
   
+
+
+
+
+
+
+

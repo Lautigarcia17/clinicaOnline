@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { DayNamePipe } from '../../../shared/pipes/day-name.pipe';
 import { AdjustMonthNumberPipe } from '../../../shared/pipes/adjust-month-number.pipe';
 import { FormatDoubleZeroPipe } from '../../../shared/pipes/format-double-zero.pipe';
+import { Specialty } from '../../../core/models/specialty';
 
 @Component({
   selector: 'app-request-shift',
@@ -20,7 +21,7 @@ import { FormatDoubleZeroPipe } from '../../../shared/pipes/format-double-zero.p
   styleUrl: './request-shift.component.css'
 })
 export default class RequestShiftComponent implements OnInit{
-  specialtysCharged: Array<string> = [];
+  specialtysCharged!: Array<Specialty>;
   specialtySearched!: string;
   stateSchedules! : boolean;
   stateDays! : boolean;
@@ -41,7 +42,7 @@ export default class RequestShiftComponent implements OnInit{
 
   ngOnInit(): void {
     this.database.getSpecialty()
-    .subscribe((response : Array<string>)=>{
+    .subscribe((response : Array<Specialty>)=>{
       this.specialtysCharged = response;
     })
   }

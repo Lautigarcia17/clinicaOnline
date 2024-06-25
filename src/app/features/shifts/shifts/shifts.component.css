@@ -395,3 +395,10 @@ button{
   color: red;
   font-weight: 900;
 }
+
+.problem-add{
+  margin-top: 10px;
+  background-color: #ff974c;
+  color: white;
+  padding: 3px 15px !important;
+}

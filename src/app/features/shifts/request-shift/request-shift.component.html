@@ -7,7 +7,7 @@
                         <h2 class="tittle-option">Seleccionar Especialidad</h2>
                         <div class="option-element">
                             @for (item of specialtysCharged; track $index) {
-                                <button  class="btn-specialty" (click)="setSpecialist(item)">{{item | firstCapitalLetter}}</button>
+                                <button  class="btn-specialty" (click)="setSpecialist(item.name)">{{item.name| firstCapitalLetter}}</button>
                             }
                             @empty {
                                 <div class="without-element">

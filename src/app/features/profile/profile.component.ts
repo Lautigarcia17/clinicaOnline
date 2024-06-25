@@ -92,12 +92,18 @@ export default class ProfileComponent{
   }
 
   downloadPdf(){
-    let tableData : Array<any> = [['Specialty','Specialist','Date','Height','Weight','Temperature','Pressure','Principal diagnosis', 'Medications / Precautions', 'Comment']]
-
+    let tableData : Array<any> = [['Especialidad','Especialista','Fecha','Altura','Peso','Temperatura','Presion','Principal diagnostico', 'Comentario','Datos adicionales']]
+    let additionalData : string = '';
     for (let shift of this.globalData.getShifts()) {
       if (shift.emailPatient == this.globalData.getCurrentUser().email && shift.stateShift === 'completado') {
+
+        for(let key in shift.diagnosis.additionalData){
+          additionalData += key + ' : ' + shift.diagnosis.additionalData[key] + '\n';
+        }
+
         let dataPatient = [shift.specialty, shift.specialist, this.convertDate(shift.date) ,shift.diagnosis.height ,shift.diagnosis.weight ,shift.diagnosis.temperature ,shift.diagnosis.pressure,
-                          shift.diagnosis.principalDiagnosis, shift.diagnosis.medicationsOrPrecautions, shift.diagnosis.comment]
+          shift.diagnosis.principalDiagnosis,shift.diagnosis.comment,additionalData]
+
         tableData.push(dataPatient);
       }
     }

@@ -4,11 +4,11 @@ export interface Shift {
     diagnosis : {
         comment : string,
         height : string,
-        medicationsOrPrecautions: string,
         pressure: string,
         principalDiagnosis: string,
         temperature: string,
         weight: string,
+        additionalData: {[key : string] : string}
     },
     emailPatient: string,
     emailSpecialist: string,

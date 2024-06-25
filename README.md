@@ -75,8 +75,10 @@ Del lado del administrador va a poder rechazar turno, y en caso de ser cancelado
 
 Del lado del especialista va a tener la posiblidad de aceptar o rechazar el turno.
 ![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/a25226f1-0f94-46a8-8d28-c69de5e8e440)
-En caso de aceptarlo va a poder realizar el diagnostico
-![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/cd480712-e896-4a3b-bc3b-1ae94854ec68)
+En caso de aceptarlo va a poder realizar el diagnostico, donde va a tener datos estaticos, y datos dinamicos que el especialista agregue, teniendo la posibilidad de agregar 3.
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/1a83a135-66b9-49f8-8996-c6fed71de606)
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/36ffa1ff-c704-4085-a507-5b9810973491)
+
 
 
 Del lado del paciente
@@ -84,6 +86,24 @@ Va a poder cancelar el turno, y si fue atendido va a tener la posiblidad de ver 
 ![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/52279fae-28bd-43e7-8360-b0ffb4739a8f)
 ![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/9530d65a-27ed-46bc-a11a-fbe866dfa944)
 ![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/619eb776-9d92-4acc-93e7-5d8a5cf2a8a8)
+
+
+## Implementacion de historia clinica
+En los pacientes, en la seccion de perfil van a poder ver su historia clinica, asi como descargar la misma en formato PDF 
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/68ba8a4b-755b-424b-816f-1a6cc5e95b50)
+
+Por el lado de los especialistas van a poder filtrar por los pacientes que haya atendido, y su historia clinica 
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/3a2b5822-afb5-4538-a98f-16ed28c75d38)
+
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/af751284-3b14-4868-bf9a-138e454d89f0)
+
+En cuanto a los administradores, van a tener un boton en la seccion usuarios para ver la historia clinica del paciente. 
+Ademas en la seccion de usuarios del administrador va a tener la posiblidad de descargar la lista de todos los pacientes en formato excel.
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/d759cfe1-3173-46b3-ad6b-d1c99ce72f87).
+
+
+
+
 
 ### No dudes en probar la aplicacion
 A continuacion dejo el link para el ingreso a la aplicacion donde va a poder registrarse y utilizarla con normalidad. Gracias!!

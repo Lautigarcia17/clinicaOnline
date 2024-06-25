@@ -10,8 +10,8 @@
                 <th>Temperatura</th>
                 <th>Presion</th>
                 <th>Principal diagnostico</th>
-                <th>Medicamentos / Precauciones</th>
                 <th>Comentario</th>
+                <th>Datos Adicionales</th>
             </tr>
         </thead>
         <tbody>
@@ -26,8 +26,13 @@
                         <td>{{item.diagnosis.temperature}}</td>
                         <td>{{item.diagnosis.pressure}}</td>
                         <td>{{item.diagnosis.principalDiagnosis}}</td>
-                        <td>{{item.diagnosis.medicationsOrPrecautions}}</td>
                         <td>{{item.diagnosis.comment}}</td>
+                        <td class="additional-data">
+                            @for (item of item.diagnosis.additionalData | keyvalue; track $index) {
+                                <div class="additional-data-item">{{item.key}} : {{item.value}}</div> <br>
+                            }
+                        </td>
+
                     </tr>
                 }
             }          
