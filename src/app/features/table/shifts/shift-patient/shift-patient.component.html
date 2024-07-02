@@ -21,7 +21,7 @@
                         <td>{{item.date | date : 'd/M/yy'}}</td>
                         <td>{{item.date | date : 'HH:mm'}}</td>
                         <td>{{item.emailSpecialist}}</td>
-                        <td><p class="txt-state" [ngClass]="{ 'text-red': item.stateShift === 'cancelado' || item.stateShift === 'rechazado' , 'text-blue': item.stateShift === 'pendiente', 'text-green': item.stateShift === 'completado', 'text-green-light' : item.stateShift === 'aceptado' }">{{ item.stateShift | firstCapitalLetter }}</p></td>
+                        <td><p class="txt-state" appColourState state="{{item.stateShift}}">{{ item.stateShift | firstCapitalLetter }}</p></td>
                         <td class="order-button">
                             @if (item.stateShift === 'completado') {
                                 @if (item.survey.experience === '') {
@@ -38,7 +38,7 @@
                             }
 
                             @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
-                                <button class="btn-cancel"  [attr.data-bs-target]="'#cancelBackdrop' + $index">Cancelar</button>
+                                <button class="btn-cancel"  data-bs-toggle="modal" [attr.data-bs-target]="'#cancelBackdrop' + $index">Cancelar</button>
                             }
                         </td> 
                     
@@ -52,10 +52,10 @@
                                     </div>
                                     <div class="modal-body">
                                         @if (item.stateShift === 'pendiente' || item.stateShift === 'aceptado') {
-                                            <textarea class="form-control" [id]="'messageText' + $index" placeholder="Write review ..."></textarea>
+                                            <textarea class="form-control" [id]="'messageText' + $index" placeholder="Escribir comentario..."></textarea>
                                         }
                                         @else if (item.stateShift === 'cancelado' || item.stateShift === 'rechazado') {
-                                            <textarea class="form-control" [id]="'messageText' + $index" placeholder="Write review ..." [value]="item.review" readonly></textarea>
+                                            <textarea class="form-control" [id]="'messageText' + $index" placeholder="Escribir comentario..." [value]="item.review" readonly></textarea>
                                         }
                                     </div>
                                     <div class="modal-footer">

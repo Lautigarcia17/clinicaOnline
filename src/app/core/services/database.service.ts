@@ -7,6 +7,7 @@ import { ref, uploadBytes,Storage, getDownloadURL } from '@angular/fire/storage'
 import { Observable, map, take } from 'rxjs';
 import { Shift } from '../models/shift';
 import { Specialty } from '../models/specialty';
+import { Login } from '../models/login';
 
 ;
 
@@ -201,6 +202,21 @@ export class DatabaseService {
     ) as Observable<Shift[]>
   }
 
+  getListLogins() : Observable<Login[]>{
+    const data = query(collection(this.firestore, 'logins'), orderBy('date','asc'));
+    return collectionData<any>(data)
+    .pipe(map( (logins : Login[]) => {
+        return logins.map( (login : any) => ({
+          user : login.user,
+          date: login.date.toDate() 
+        }));
+      })
+    ) as Observable<Login[]>
+  }
+
+
+
+
   saveShiftDatabase(data : any) : void{
     try{
       addDoc(collection(this.firestore,"shifts"),{
@@ -326,5 +342,17 @@ export class DatabaseService {
   }
   // -/
 
+
+
+  addLogin(user : string, date : Date){
+    try{
+      addDoc(collection(this.firestore,"logins"),{
+        user: user,
+        date : date
+      });
+    }catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  }
 
 }

@@ -8,11 +8,14 @@ import { CommonModule } from '@angular/common';
 import { PdfService } from '../../core/services/pdf.service';
 import { FormatDoubleZeroPipe } from '../../shared/pipes/format-double-zero.pipe';
 import { DayScheduleService } from '../../core/services/day-schedule.service';
+import { Shift } from '../../core/models/shift';
+import { FormsModule } from '@angular/forms';
+import { TooltipTittleDirective } from '../../shared/directives/tooltip-tittle.directive';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FirstCapitalLetterPipe,PatientClinicHistoryComponent,CommonModule,FormatDoubleZeroPipe,CommonModule],
+  imports: [FirstCapitalLetterPipe,PatientClinicHistoryComponent,CommonModule,FormatDoubleZeroPipe,CommonModule,FormsModule,TooltipTittleDirective],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -27,14 +30,32 @@ export default class ProfileComponent{
   timeSlotsEnd!: Array<any>;
   startTime!: Date;
   endTime!: Date;
-
+  filteredSpecialties! : Set<string>;
+  specialtyDowload! : string;
 
   constructor(public globalData : GlobalDataService, private database : DatabaseService, private toastr : ToastrService, private pdf : PdfService, private daySchedule : DayScheduleService){
     this.flag = false;
     this.viewShifts = false;
     this.viewClinicHistory = false;
+    this.filteredSpecialties = new Set();
+    this.specialtyDowload = 'todas';
   }
 
+  ngOnInit(): void {
+    this.database.getShifts()
+    .subscribe((shifts: Shift[]) => {
+      const completedShifts = shifts.filter((shift: Shift) => 
+        shift.emailPatient === this.globalData.getCurrentUser().email && 
+        shift.stateShift === 'completado'
+      );
+
+      completedShifts.forEach((shift: Shift) => {
+        this.filteredSpecialties.add(shift.specialty);
+      });
+  
+
+    });
+  }
 
 
 
@@ -93,18 +114,23 @@ export default class ProfileComponent{
 
   downloadPdf(){
     let tableData : Array<any> = [['Especialidad','Especialista','Fecha','Altura','Peso','Temperatura','Presion','Principal diagnostico', 'Comentario','Datos adicionales']]
-    let additionalData : string = '';
+
     for (let shift of this.globalData.getShifts()) {
       if (shift.emailPatient == this.globalData.getCurrentUser().email && shift.stateShift === 'completado') {
+        if(this.specialtyDowload == 'todas' || this.specialtyDowload == shift.specialty)
+        {
+          let additionalData : string = '';
 
-        for(let key in shift.diagnosis.additionalData){
-          additionalData += key + ' : ' + shift.diagnosis.additionalData[key] + '\n';
+          for(let key in shift.diagnosis.additionalData){
+            additionalData += key + ' : ' + shift.diagnosis.additionalData[key] + '\n';
+          }
+  
+          let dataPatient = [shift.specialty, shift.specialist, this.convertDate(shift.date) ,shift.diagnosis.height ,shift.diagnosis.weight ,shift.diagnosis.temperature ,shift.diagnosis.pressure,
+            shift.diagnosis.principalDiagnosis,shift.diagnosis.comment,additionalData]
+  
+          tableData.push(dataPatient);
         }
 
-        let dataPatient = [shift.specialty, shift.specialist, this.convertDate(shift.date) ,shift.diagnosis.height ,shift.diagnosis.weight ,shift.diagnosis.temperature ,shift.diagnosis.pressure,
-          shift.diagnosis.principalDiagnosis,shift.diagnosis.comment,additionalData]
-
-        tableData.push(dataPatient);
       }
     }
     let namePdf = this.globalData.getCurrentUser().dni + '-historialClinico';

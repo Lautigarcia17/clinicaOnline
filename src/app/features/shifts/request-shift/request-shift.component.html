@@ -1,5 +1,5 @@
 <div class="content">
-    <div class="content-element">
+    <div class="content-element" [@slideUp]>
         @if (globalData.getCurrentUser()) {
             <div class="inside-element">
                 @if (specialtySearched ==='') {
@@ -33,7 +33,7 @@
                     }
                 }
                 @else {
-                    <button class="btn-back" (click)="back()"><img class="img-back" src="../../../assets/backImage.png"></button>
+                    <button class="btn-back" (click)="back()"><img class="img-back" src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2FbackImage.jpg?alt=media&token=5913a890-f697-429f-8cbf-c4874921e739"></button>
 
                     @if (!stateDays && !stateSchedules) {
 

@@ -34,6 +34,9 @@ export const routes: Routes = [
           },
           {
             path: 'patients', loadComponent: () => import('./features/manage-patients/manage-patients.component'), canActivate: [authGuard],
+          },
+          {
+            path: 'statistics', loadComponent: () => import('./features/statistics/statistics.component'), canActivate: [authGuard],
           }
         ]
       },

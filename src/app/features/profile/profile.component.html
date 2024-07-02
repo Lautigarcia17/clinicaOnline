@@ -216,7 +216,7 @@
                     
                     @if (globalData.getProfile() === 'paciente') {
                         <div class="btn-history ">
-                            <button (click)="switchViewClinicHistory()"><img src="../../../assets/clinicHistory.png" alt="history"></button>
+                            <button appTooltipTittle="Click para ver la historia clinica" (click)="switchViewClinicHistory()"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2FclinicHistory.png?alt=media&token=c8efd95c-ef11-41f8-93d9-24b184a2cd29" alt="history"></button>
                         </div>  
                     }
                 </div>   
@@ -224,6 +224,15 @@
                     @if(viewClinicHistory) {
                         <div class="profile-column">
                             <h1 class="text-clinic-history">Historia Clinica</h1>
+
+                            <h2 class="text-specialty">Especialdad a descargar : </h2>
+                            <select class="select-specialty" [(ngModel)]="specialtyDowload">
+                                <option value="todas" >Todas</option>
+                                @for (item of filteredSpecialties; track $index) {
+                                    <option  value="{{item}}">{{item | firstCapitalLetter}}</option>
+                                }
+                            </select>
+
                             <button class="btn-pdf"  (click)="downloadPdf()"> Descargar PDF</button>
                             <app-patient-clinic-history [arrayShifts]="globalData.getShifts()" [user]="globalData.getCurrentUser()" ></app-patient-clinic-history>
                         </div>

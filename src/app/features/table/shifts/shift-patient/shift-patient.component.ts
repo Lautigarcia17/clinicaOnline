@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { GlobalDataService } from '../../../../core/services/global-data.service';
 import { Shift } from '../../../../core/models/shift';
 import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
+import { ColourStateDirective } from '../../../../shared/directives/colour-state.directive';
 
 @Component({
   selector: 'app-shift-patient',
   standalone: true,
-  imports: [FirstCapitalLetterPipe,CommonModule,ReactiveFormsModule,FilterPipe],
+  imports: [FirstCapitalLetterPipe,CommonModule,ReactiveFormsModule,FilterPipe,ColourStateDirective],
   templateUrl: './shift-patient.component.html',
   styleUrl: './shift-patient.component.css'
 })

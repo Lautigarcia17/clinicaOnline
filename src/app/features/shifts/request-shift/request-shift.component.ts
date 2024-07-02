@@ -12,13 +12,22 @@ import { DayNamePipe } from '../../../shared/pipes/day-name.pipe';
 import { Specialty } from '../../../core/models/specialty';
 import { FormatDatePipe } from '../../../shared/pipes/format-date.pipe';
 import { FormatTimePipe } from '../../../shared/pipes/format-time.pipe';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-request-shift',
   standalone: true,
   imports: [CommonModule,FormsModule,FirstCapitalLetterPipe,DayNamePipe,FormatDatePipe,FormatTimePipe],
   templateUrl: './request-shift.component.html',
-  styleUrl: './request-shift.component.css'
+  styleUrl: './request-shift.component.css',
+  animations: [
+    trigger('slideUp', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+      ]),
+    ])
+  ]
 })
 export default class RequestShiftComponent implements OnInit{
   specialtysCharged!: Array<Specialty>;
@@ -67,7 +76,7 @@ export default class RequestShiftComponent implements OnInit{
 
 
   setDays(user : any) : void{
-    let date : Date = new Date(2024,5,24,11,0);
+    let date : Date = new Date();
     let closingTime : number = this.daySchedule.getNameDay(date) == 'Sabado' ? 14 : 19;
     this.specialistSelected = user;
     this.stateDays = true;

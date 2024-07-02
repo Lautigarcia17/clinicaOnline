@@ -7,11 +7,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { DatabaseService } from '../../../core/services/database.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../core/services/local-storage.service';
+import { EnterClickDirective } from '../../../shared/directives/enter-click.directive';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,CommonModule],
+  imports: [CommonModule,ReactiveFormsModule,CommonModule,EnterClickDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -34,7 +35,7 @@ export default class LoginComponent {
     .then( (response) =>{
         
         if (response.user.emailVerified == false) {
-          this.toastr.info("No verificaste el email. Verifica el email para acceder!","Recuerda", {timeOut: 3000,progressBar: true,closeButton:true});
+          this.toastr.error("No verificaste el email. Verifica el email para acceder!","Recuerda", {timeOut: 3000,progressBar: true,closeButton:true});
         }
         else{
           this.database.getUser(response.user.email ?? '')
@@ -45,6 +46,7 @@ export default class LoginComponent {
               else{
                 this.localStorage.saveDataUserLocalStorage(user[0].id);
                 this.globalData.setUser(user[0]);
+                this.database.addLogin(user[0].email, new Date())
                 this.toastr.success("Has iniciado sesion","Felicidades!", {timeOut: 3000,progressBar: true,closeButton:true});
                 this.router.navigate(["home"]); 
               }
@@ -53,7 +55,7 @@ export default class LoginComponent {
         }
     })
     .catch( () =>{
-      this.toastr.info("El usuario ingresado no existe","Notice", {timeOut: 3000,progressBar: true,closeButton:true});
+      this.toastr.error("El usuario ingresado no existe","Notice", {timeOut: 3000,progressBar: true,closeButton:true});
     } )
   }
 

@@ -23,7 +23,7 @@
               <td>{{item.date | date : 'HH:mm a'}}</td>
               <td>{{item.emailSpecialist}}</td>
               <td>{{item.emailPatient}}</td>
-              <td><p class="txt-state" [ngClass]="{ 'text-red': item.stateShift === 'cancelado' || item.stateShift === 'rechazado' , 'text-blue': item.stateShift === 'pendiente', 'text-green': item.stateShift === 'completado', 'text-green-light' : item.stateShift === 'aceptado' }">{{ item.stateShift | firstCapitalLetter }}</p></td>
+              <td><p class="txt-state" appColourState state="{{item.stateShift}}">{{ item.stateShift | firstCapitalLetter }}</p></td>
 
               <td>
                 @if (item.stateShift === 'pendiente') {

@@ -4,10 +4,12 @@
     align-items: center;
     justify-content: center;
 
-    background-image: url('../../../../assets/home.jpg');
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fhome.jpg?alt=media&token=45052f8c-998b-4424-969b-bef8d973dafe');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    max-width: 100%;
+    padding: 0;
 }
 
 .content-element{

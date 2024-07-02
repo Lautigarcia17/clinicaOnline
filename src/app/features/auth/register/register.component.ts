@@ -5,13 +5,22 @@ import { RegisterPatientComponent } from './register-patient/register-patient.co
 import { RegisterSpecialistComponent } from './register-specialist/register-specialist.component';
 import { RegisterAdministratorComponent } from './register-administrator/register-administrator.component';
 import { DatabaseService } from '../../../core/services/database.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule,RegisterPatientComponent,RegisterSpecialistComponent,RegisterAdministratorComponent],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
+  animations: [
+    trigger('slideUp', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+      ]),
+    ])
+  ]
 })
 export default class RegisterComponent implements OnInit{
   stateRegister : boolean;

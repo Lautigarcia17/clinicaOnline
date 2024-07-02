@@ -4,7 +4,6 @@
     font-weight: 700;
 }
 
-/*MODAL*/
 .content-modal{
     background-color: #242531 !important;
     color: white;
@@ -30,4 +29,101 @@
     color: #ff974c;
     font-weight: 700;
 }
+
+
+ .cards-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin; 
+    scrollbar-color: rgba(16, 233, 179) transparent;
+
+
+    padding: 20px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.patient-card {
+    flex: 0 0 auto; 
+    width: 400px; 
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #0e0e0e;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 200px;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-content h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #4FC3A1;
+    font-weight: 900;
+}
+
+.card-content p {
+    font-size: 14px;
+    color: black;
+}
+
+.card-buttons {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-view {
+    background: #f9791d;
+    border: none;
+    color: white;
+    padding: 8px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.btn-view:hover {
+    background: #c96117;
+}
+
+.no-clinic-history {
+    color: red;
+    font-size: 12px;
+}
+
+
+.btn-download-shift{
+    background-color: #278414;
+    color: whitesmoke;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 8px 8px;
+    border: none;
+    transition: background 0.3s ease;
+    border-radius: 5px;
+}
+
+.btn-download-shift:hover{
+    background-color: rgb(49 179 22);
+}
+
 

@@ -8,11 +8,12 @@ import { FirstCapitalLetterPipe } from '../../../../shared/pipes/first-capital-l
 import { GlobalDataService } from '../../../../core/services/global-data.service';
 import { Shift } from '../../../../core/models/shift';
 import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
+import { ColourStateDirective } from '../../../../shared/directives/colour-state.directive';
 
 @Component({
   selector: 'app-shift-specialist',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FirstCapitalLetterPipe,FilterPipe,CommonModule,FormsModule],
+  imports: [CommonModule,ReactiveFormsModule,FirstCapitalLetterPipe,FilterPipe,CommonModule,FormsModule,ColourStateDirective],
   templateUrl: './shift-specialist.component.html',
   styleUrl: './shift-specialist.component.css'
 })

@@ -1,39 +1,48 @@
-<div class="content">
-    <div class="content-element">
-        <div class="inside-element">
-            @if(!viewClinicHistory && filteredShifts){
-                <div class="option">
-                    <h2 class="tittle-option">Seleccionar Paciente</h2>
-                    <div class="option-element">
-                        @for (item of filteredShifts; track $index) {
-                            @if (item.emailSpecialist === globalData.getCurrentUser().email && item.stateShift === 'completado') {
-    
-                                <button class="btn-patient"  (click)="chargeClinicHistory(item.emailPatient)">
-                                    <h4 class="name-patient">{{item.patient | firstCapitalLetter}} </h4>
-                                    <h5 class="email-patient">{{item.emailPatient}}</h5>
-                                </button>
-                            }
-                        }
-                        @empty {
-                            <div class="without-element">
-                                <h2> Sin pacientes</h2>
+@if (globalData.getShifts()) { 
+    <div class="content">
+        <div class="cards-container">
+            @if(filteredShifts){
+                <div class="item-card">
+                    @for (item of filteredShifts; track $index) {
+                        <div class="patient-card">
+                            <div class="card-content">
+                                <h2>{{item.patient | firstCapitalLetter}}</h2>
+                                <h3 class="last-shift">Ultimos turnos</h3>
+                                @for (date of getDateShifts(item.emailPatient); track $index) {
+                                    <p>{{date.date | date : 'd/M/yy HH:mm'}}</p>
+                                }
                             </div>
-                        }                         
-                    </div>
+                            <div class="card-buttons">
+                                <button class="btn-view" data-bs-toggle="modal" [attr.data-bs-target]="'#clinicHistory'" (click)="chargeClinicHistory(item.emailPatient)">Ver Historia Clinica</button>
+                            </div>
+                        </div>
+                    }
+                    @empty {
+                        <div class="without-element">
+                            <h2> Sin pacientes</h2>
+                        </div>
+                    }
                 </div>
             }
-
-            @if (viewClinicHistory && patientSelected) {
-                <button class="btn-back" (click)="back()"><img class="img-back" src="../../../assets/backImage.png"></button>
-                <div class="text-center element-history">
-                    <h1 class="text-clinic-history">HISTORIA CLINICA </h1>
-                    <app-patient-clinic-history [arrayShifts]="filteredShifts" [user]="patientSelected"></app-patient-clinic-history>
-                </div>
-            }
-            
-
-
         </div>
     </div>
-</div> 
 
+    <div class="modal fade" [id]="'clinicHistory'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="clinicBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content content-modal">
+                <div class="modal-header">
+                    <h1 class="modal-title text-history" id="clinicBackdropLabel">HISTORIA CLINICA</h1>
+                    <button type="button" class="btn-equis" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    @if (patientSelected) {
+                        <app-patient-clinic-history [arrayShifts]="this.arrayShifts" [user]="patientSelected"></app-patient-clinic-history>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

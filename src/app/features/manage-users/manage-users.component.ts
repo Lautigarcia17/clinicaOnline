@@ -63,8 +63,8 @@ export default class ManageUsersComponent {
     }
   }
 
-  downloadShiftExcel(){
-    this.excel.downloadExcel(this.globalData.getUsers());
+  downloadUserExcel(){
+    this.excel.downloadUserExcel(this.globalData.getUsers());
     this.toastr.success("Pacientes descargados!","FELICIDADES!", {timeOut: 3000,progressBar: true,closeButton:true});
 
   }

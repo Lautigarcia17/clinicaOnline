@@ -1,59 +1,47 @@
-
-<div class="table-wrapper">
-    <table class="fl-table">
-        <thead>
-        <tr>
-            <th>Dni</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Edad</th>
-            <th>Mail</th>
-            <th>Obra social</th>
-            <th>Imagenes</th>
-            <th>Historia Clinica</th>
-        </tr>
-        </thead>
-        <tbody>
-            @for (item of users; track $index) {
-                <tr>
-                    @if (item.profile == 'paciente') {
-                        <td>{{item.dni}}</td>
-                        <td>{{item.name | firstCapitalLetter}}</td>
-                        <td>{{item.surname | firstCapitalLetter}}</td>
-                        <td>{{item.age}}</td>
-                        <td>{{item.email}}</td>
-                        <td>{{item.socialSecurity}}</td>
-                        <td class="td-space"> <img src="{{item.img[0]}}"> <img src="{{item.img[1]}}"></td>
-                        <td>
-                            @if (verifyHistoryClinic(item)) {
-                                <button class="btn-completed"  data-bs-toggle="modal" [attr.data-bs-target]="'#clinicHistory' + $index">Ver</button>
-                            }
-                            @else {
-                                <h3 class="no-clinic-history">SIN HISTORIA CLINICA</h3>
-                            }
-                        </td>
-                    }
-                </tr>
-
+@if (globalData.getShifts()) {
+    <div class="cards-container">
+        @for (item of users; track $index) {
+            @if (item.profile == 'paciente') {
+                <div class="patient-card ">
+                    <div class="card-image">
+                        <img src="{{item.img[0]}}" alt="{{item.name}}'s image">
+                    </div>
+                    <div class="card-content">
+                        <h2>{{item.name | firstCapitalLetter}} {{item.surname | firstCapitalLetter}}</h2>
+                        <p>DNI: {{item.dni}}</p>
+                        <p>Edad: {{item.age}}</p>
+                        <p>Mail: {{item.email}}</p>
+                        <p>Obra Social: {{item.socialSecurity}}</p>
+                    </div>
+                    <div class="card-buttons">
+                        @if (verifyHistoryClinic(item)) {
+                            <button class="btn-download-shift" (click)="dowloadShiftByUser(item)">Descargar turnos</button>
+                            <button class="btn-view " data-bs-toggle="modal" [attr.data-bs-target]="'#clinicHistory' + $index">Ver Historia Clinica</button>
+                        }
+                        @else {
+                            <h3 class="no-clinic-history">SIN HISTORIA CLINICA</h3>
+                        }
+                    </div>
+                </div>
                 <div class="modal fade" [id]="'clinicHistory' + $index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="clinicBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable ">
-                      <div class="modal-content content-modal">
-                        <div class="modal-header">
-                          <h1  class="modal-title text-history" id="clinicBackdropLabel">HISTORIA CLINICA</h1>
-                          <button type="button" class="btn-equis" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content content-modal">
+                            <div class="modal-header">
+                                <h1 class="modal-title text-history" id="clinicBackdropLabel">HISTORIA CLINICA</h1>
+                                <button type="button" class="btn-equis" data-bs-dismiss="modal" aria-label="Close">X</button>
+                            </div>
+                            <div class="modal-body">
+                                <app-patient-clinic-history [arrayShifts]="globalData.getShifts()" [user]="item"></app-patient-clinic-history>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
                         </div>
-
-                        <div class="modal-body">
-                            <app-patient-clinic-history [arrayShifts]="globalData.getShifts()" [user]="item"></app-patient-clinic-history> 
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        </div>
-                      </div>
                     </div>
                 </div>
             }
+        }
 
-        <tbody>
-    </table>
-</div>
+        
+    </div>
+}

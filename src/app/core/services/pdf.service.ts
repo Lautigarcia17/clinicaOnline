@@ -17,7 +17,7 @@ export class PdfService {
     const pageHeight = doc.internal.pageSize.getHeight();
 
 
-    const imageData = await this.transformImage('../../assets/clinic.jpg');
+    const imageData = await this.transformImage('../../../assets/clinic.jpg');
     doc.addImage(imageData, 'PNG', (pageWidth - 50) / 2, 10, 50, 50);
 
     doc.setFontSize(20);

@@ -1,0 +1,53 @@
+
+<div>
+    <div class="row statistics-canva">
+        <div class="column section-canva">
+            <h2 class="title-statistics">Numero de turnos por especialidad</h2>
+            <canvas class="margin-canva" id="pie"></canvas>
+            <button class="btn-download" (click)="excel.downloadGraphicExcel('pie')">Descargar grafico</button>
+        </div>
+    
+        <div class="column section-canva">
+            <h2 class="title-statistics">Numero de turnos por dia</h2>
+            <canvas class="margin-canva" id="bar"></canvas>
+            <button class="btn-download" (click)="excel.downloadGraphicExcel('bar')">Descargar grafico</button>
+        </div>
+    </div>
+
+    <div>
+        <div class="table-container mb-1" >      
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of globalData.getListLogins(); track $index) {
+                        <tr>
+                            <td>{{item.user}}</td>
+                            <td>{{item.date | date : 'd/M/yy'}}</td>
+                            <td>{{item.date | date : 'HH:mm'}}</td>
+                        </tr>   
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+        <button style="margin-left: 10px;" class="btn-download" (click)="excel.downloadLoginExcel(globalData.getListLogins())">Descargar grafico</button>
+    </div>
+</div>
+
+
+<input type="date" [(ngModel)]="startDate">
+
+<input type="date" [(ngModel)]="endDate">
+
+<button (click)="calculateShiftBySpecialist()"> FILTRAR</button>
+
+
+
+
+

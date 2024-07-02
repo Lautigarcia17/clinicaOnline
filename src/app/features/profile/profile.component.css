@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('../../../assets/profile.jpg');
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fprofile.jpg?alt=media&token=5dcdc58d-0a38-41da-b78d-e3c0b5cc870f');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -240,8 +240,7 @@
     font-size: 18px;
     padding: 0px 18px;
     border-radius: 20px;
-    margin-top: 40px;
-    margin-right: 20px;
+    margin-left: 20px;
     height: 30px;
 }
 
@@ -265,4 +264,20 @@
 .label-time{
     font-size: 16px;
     color: white;
+}
+
+
+
+.text-specialty{
+    color: white;
+    display: unset;
+    margin-right: 11px;
+}
+
+.select-specialty{
+    padding: 2px;
+    font-weight: 900;
+    font-size: 14px;
+    border-radius: 8px;
+    text-align: center;
 }

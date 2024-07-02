@@ -51,8 +51,8 @@
                         <div class="validation-message"  [hidden]="formUser.get('password')?.pristine">La contraseña es requerida</div>
                     }
                 </div>
-                <div class="center-button">
-                    <button class="btn margin-top" id="btn-login" [disabled]="formUser.invalid">Iniciar Sesion</button>
+                <div class="center-button" appEnterClick>
+                    <button class="btn margin-top" id="btn-login" [disabled]="formUser.invalid" >Iniciar Sesion</button>
                 </div>
             </form>
             <p class="final-text">

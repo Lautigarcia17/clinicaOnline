@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     /* background-image: linear-gradient(to right bottom, #ffffff, #f2f7ff, #dbf2fe, #c3eef2, #b6e9da); */
-    background-image: url('../../../../assets/profile.jpg');
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fprofile.jpg?alt=media&token=5dcdc58d-0a38-41da-b78d-e3c0b5cc870f');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -35,6 +35,7 @@
     border-radius: 4px 0 0 4px;
     border: 1px solid gray;
     margin-left: 70px;
+    margin-top: 5px;
   }
 
   .hero-section .search-form input:focus {
@@ -190,20 +191,7 @@
   
 }
 
-.text-red{
-  color: red;
-}
-.text-blue{
-  color: rgb(20, 138, 192);;
-}
 
-.text-green{
-  color: green;
-}
-
-.text-green-light{
-  color: #4FC3A1;
-}
 
 
 /* Responsive */

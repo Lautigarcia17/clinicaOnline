@@ -1,5 +1,5 @@
 <div class="content">
-    <div class="content-element">
+    <div class="content-element" [@slideUp]>
         @if (!stateRegister) {
             <div class="inside-element" >    
                 <div class="name-for-profile" >
@@ -8,10 +8,10 @@
                     }
                      
                 </div>
-                <button class="type-image" (click)="changeStatePatient()" (mouseover)="showName('Paciente')" (mouseleave)="hideName()"><img src="../../../../assets/patient.png" alt="patient" class="img-type"></button>
-                <button class="type-image" (click)="changeStateSpecialist()" (mouseover)="showName('Especialista')" (mouseleave)="hideName()"><img src="../../../../assets/specialist.png" alt="patient" class="img-type" ></button>
+                <button class="type-image" (click)="changeStatePatient()" (mouseover)="showName('Paciente')" (mouseleave)="hideName()"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fpatient.jpg?alt=media&token=bb8d553d-78c6-445f-8e0c-dc832f630a0b" alt="patient" class="img-type"></button>
+                <button class="type-image" (click)="changeStateSpecialist()" (mouseover)="showName('Especialista')" (mouseleave)="hideName()"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fspecialist.jpg?alt=media&token=c288040b-af77-4651-a429-469ee36dfdfc" alt="patient" class="img-type" ></button>
                 @if (globalData.getProfile() == 'administrador') {
-                    <button  class="type-image"  (click)="changeStateAdministrator()" (mouseover)="showName('Administrador')" (mouseleave)="hideName()"><img src="../../../../assets/administrator.jpg" alt="patient" class="img-type" ></button> 
+                    <button  class="type-image"  (click)="changeStateAdministrator()" (mouseover)="showName('Administrador')" (mouseleave)="hideName()"><img src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Fadministrator.jpg?alt=media&token=c59c6e25-a3e6-4ce5-a826-2e1af0a10f73" alt="patient" class="img-type" ></button> 
                 }
             </div>
         }

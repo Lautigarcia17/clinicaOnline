@@ -1,13 +1,13 @@
 
 @if (stateNewUser) {
-    <button class="btn-back" (click)="changeStateNewUser()"><img class="img-back" src="../../../assets/backImage.png"></button>
+    <button class="btn-back absolute" (click)="changeStateNewUser()"><img class="img-back" src="https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2FbackImage.jpg?alt=media&token=5913a890-f697-429f-8cbf-c4874921e739"></button>
     <app-register></app-register>
 }
 @else if (!stateNewUser) {
     <div class="content">
         <div class="btn-head">
             <button class="btn-add" (click)="changeStateNewUser()">Nuevo usuario</button>
-            <button class="btn-excel" (click)="downloadShiftExcel()">Descargar usuarios</button>
+            <button class="btn-excel" (click)="downloadUserExcel()">Descargar usuarios</button>
         </div>
     
         <div class="option">
@@ -16,6 +16,7 @@
             <button (click)="selectTable('administrador')" [ngClass]="{'active-button' : viewAdministrator}">Administradores</button>
         </div>
     
+        
         <!-- PATIENT -->
          @if (viewPatient) {
             <div [@slideDown]>

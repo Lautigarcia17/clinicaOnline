@@ -3,6 +3,7 @@ import { LocalStorageService } from './local-storage.service';
 import { DatabaseService } from './database.service';
 import { Observable } from 'rxjs';
 import { Shift } from '../models/shift';
+import { Login } from '../models/login';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class GlobalDataService {
   private arrayUsers! : Array<any>;
   private arrayShifts! : Array<any>;
   private observableUser! : any;
+  private arrayLogins! : Array<Login>
 
   constructor(localStorage: LocalStorageService, database : DatabaseService) {
     this.stateLogin = localStorage.stateLogin;
@@ -47,6 +49,15 @@ export class GlobalDataService {
       }
     });
 
+    database.getListLogins()
+    .subscribe((response : Login[]) =>{
+      this.arrayLogins =[];
+      for(let login of response)
+      {
+        this.arrayLogins.push(login);         
+      }
+    });
+
   }
 
   getStateLogin(): boolean {
@@ -58,13 +69,16 @@ export class GlobalDataService {
   }
 
   getProfile() : string{
-
     return this.currentUser ? this.currentUser.profile : '';
   }
 
 
   getUsers() : Array<any>{
     return this.arrayUsers;
+  }
+
+  getListLogins() : Array<Login>{
+    return this.arrayLogins;
   }
 
   setLogout(): void {

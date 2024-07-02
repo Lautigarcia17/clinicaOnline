@@ -49,4 +49,15 @@ export class DayScheduleService {
            (currentHours.end.getHours() == end.getHours()  && currentHours.end.getMinutes() == end.getMinutes());
   }
 
+  formatDate(date: Date): string {
+
+    let month: number = date.getMonth() + 1;
+    return date.getDate() + "/" + month + "/" + date.getFullYear();
+  }
+
+  formatDateTime(dateTime: Date): string {
+    let formattedDateTime = `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+    return formattedDateTime;
+  }
+
 }
