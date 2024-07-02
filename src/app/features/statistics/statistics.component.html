@@ -3,14 +3,14 @@
     <div class="row statistics-canva">
         <div class="column section-canva">
             <h2 class="title-statistics">Numero de turnos por especialidad</h2>
-            <canvas class="margin-canva" id="pie"></canvas>
-            <button class="btn-download" (click)="excel.downloadGraphicExcel('pie')">Descargar grafico</button>
+            <canvas class="margin-canva" id="shiftBySpecialty"></canvas>
+            <button class="btn-download" (click)="excel.downloadGraphicExcel('shiftBySpecialty')">Descargar grafico</button>
         </div>
     
         <div class="column section-canva">
             <h2 class="title-statistics">Numero de turnos por dia</h2>
-            <canvas class="margin-canva" id="bar"></canvas>
-            <button class="btn-download" (click)="excel.downloadGraphicExcel('bar')">Descargar grafico</button>
+            <canvas class="margin-canva" id="shiftByDay"></canvas>
+            <button class="btn-download" (click)="excel.downloadGraphicExcel('shiftByDay')">Descargar grafico</button>
         </div>
     </div>
 
@@ -38,14 +38,42 @@
         </div>
         <button style="margin-left: 10px;" class="btn-download" (click)="excel.downloadLoginExcel(globalData.getListLogins())">Descargar grafico</button>
     </div>
+
+
+    <div class="row statistics-canva">
+    
+        <div class="column section-canva">
+            <div class="filter-container">
+                <input type="date" [(ngModel)]="startDateShift" class="date-input" (change)="updateEndDateMin('endDateShift',startDateShift)">
+                <input type="date" [(ngModel)]="endDateShift" name="endDateShift" class="date-input" [min]="startDateShift" >
+                <button (click)="calculateShiftBySpecialist()" class="filter-button">FILTRAR</button>
+              </div>
+
+            <h2 class="title-statistics">Numero de turnos solicitados por especialista</h2>
+            <canvas class="margin-canva" id="graphicSpecialistShift"></canvas>
+            <button class="btn-download" (click)="excel.downloadGraphicExcel('graphicSpecialistShift')">Descargar grafico</button>
+        </div>
+
+        <div class="column section-canva">
+            <div class="filter-container">
+                <input type="date" [(ngModel)]="startDateShiftCompleted" class="date-input" (change)="updateEndDateMin('endDateShiftCompleted',startDateShiftCompleted)">
+                <input type="date" [(ngModel)]="endDateShiftCompleted" name="endDateShiftCompleted" class="date-input" [min]="startDateShiftCompleted">
+                <button (click)="calculateShiftCompletedBySpecialist()" class="filter-button">FILTRAR</button>
+              </div>
+
+            <h2 class="title-statistics">Numero de turnos completados solicitados por especialista</h2>
+            <canvas class="margin-canva" id="graphicSpecialistShiftCompleted"></canvas>
+            <button class="btn-download" (click)="excel.downloadGraphicExcel('graphicSpecialistShiftCompleted')">Descargar grafico</button>
+        </div>
+
+    </div>
+
 </div>
 
 
-<input type="date" [(ngModel)]="startDate">
 
-<input type="date" [(ngModel)]="endDate">
 
-<button (click)="calculateShiftBySpecialist()"> FILTRAR</button>
+
 
 
 

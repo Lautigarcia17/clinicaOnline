@@ -102,7 +102,13 @@ Ademas en la seccion de usuarios del administrador va a tener la posiblidad de d
 ![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/d759cfe1-3173-46b3-ad6b-d1c99ce72f87).
 
 
+## Estadisticas
+Se van a demostrar varias estadisticas sobre la clinica, por un ladro los turnos por especialidad, siguiente por turnos por dia de la semana, teniendo un control de los logins, y manejando turnos por especialidad segun una fecha determinada
 
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/d6e0a87e-2e80-4100-be36-edc5bae43a24)
+
+![image](https://github.com/Lautigarcia17/clinicaOnline/assets/98592376/8dba6bdc-a5ac-49d2-b0cd-af7d9cc8d29f)
+Con la posiblidad de poder descargar cada uno de estos graficos.
 
 
 ### No dudes en probar la aplicacion

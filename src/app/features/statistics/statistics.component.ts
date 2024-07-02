@@ -19,9 +19,12 @@ Chart.register(...registerables);
 })
 export default class StatisticsComponent {
   arraySpecialtys! : Array<any>;
-  startDate! : string;
-  endDate! : string;
   arrayShifts! : Shift[];
+  startDateShift! : string;
+  endDateShift! : string;
+  startDateShiftCompleted! : string;
+  endDateShiftCompleted! : string;
+  chartsSpecialist : any = {};
 
   constructor(public globalData : GlobalDataService, public database : DatabaseService, public excel : ExcelService, private dayService : DayScheduleService){}
 
@@ -60,7 +63,7 @@ export default class StatisticsComponent {
         let values = Object.values(specialtyCounts);
         let colours = Object.keys(specialtyColours);
 
-      this.renderChart('pie',labels,values,colours);
+      this.renderChart('pie',labels,values,colours,'shiftBySpecialty');
     })
   }
 
@@ -87,15 +90,15 @@ export default class StatisticsComponent {
 
     labels.shift();
     let values = Object.values(shiftsForDay);
-    this.renderChart('bar',labels,values,'rgba(16, 233, 179)');
+    this.renderChart('bar',labels,values,'rgba(16, 233, 179)','shiftByDay');
 
   }
 
   
 
 
-  renderChart(typeGrafic : any ,labels : any, data : any, colours : any = ''){
-    let idGraph : any = document.getElementById(typeGrafic);
+  renderChart(typeGrafic : any ,labels : any, data : any, colours : any = '', id : string){
+    let idGraph : any = document.getElementById(id);
     if (idGraph !== null) {
       new Chart(idGraph, {
         type: typeGrafic, 
@@ -148,81 +151,160 @@ export default class StatisticsComponent {
 
 
 
-
-
-
-
-
-
-
-  calculateShiftBySpecialist(){
-    if(this.startDate && this.endDate){
-      let dateStart = this.convertDate(this.startDate);
-      let dateEnd = this.convertDate(this.endDate);
-
-      this.database.getUsersDatabase()
-      .subscribe( (users : any) =>{
-        let specialistCounts : any = {};
-        let specialtistColours : any = {}
-  
-          users.forEach((specialtist: any) => {
-            if(specialtist.profile === 'especialista'){
-              specialistCounts[specialtist.name + ' ' + specialtist.surname] = 0;
-              specialtistColours[this.getRandomColor()] = ''; 
-            }
-          });
-  
-          
-          this.arrayShifts.forEach((shift: Shift) => {
-            let dateShift = new Date(shift.date.getFullYear(), shift.date.getMonth(), shift.date.getDate())
-            if(dateShift >= dateStart && dateShift<= dateEnd )
-            {
-              specialistCounts[shift.specialist]++; 
-            }
-          });
-  
-          let labels = Object.keys(specialistCounts);
-          let values = Object.values(specialistCounts);
-          let colours = Object.keys(specialtistColours);
-  
-        // this.renderChart('pie',labels,values,colours);
-      })
-    }
-  }
-
   calculateShiftCompletedBySpecialist(){
-    if(this.startDate && this.endDate){
-      let dateStart = this.convertDate(this.startDate);
-      let dateEnd = this.convertDate(this.endDate);
-
-      this.database.getUsersDatabase()
-      .subscribe( (users : any) =>{
-        let specialistCounts : any = {};
-        let specialtistColours : any = {}
+    if (this.startDateShiftCompleted && this.endDateShiftCompleted) {
+      let dateStart = this.convertDate(this.startDateShiftCompleted);
+      let dateEnd = this.convertDate(this.endDateShiftCompleted);
   
-          users.forEach((specialtist: any) => {
-            if(specialtist.profile === 'especialista'){
-              specialistCounts[specialtist.name + ' ' + specialtist.surname] = 0;
-              specialtistColours[this.getRandomColor()] = ''; 
+      this.database.getUsersDatabase().subscribe((users: any) => {
+        let specialistCounts: any = {};
+        let dates: any = {};
+  
+        users.forEach((specialist: any) => {
+          if (specialist.profile === 'especialista') {
+            specialistCounts[specialist.name + ' ' + specialist.surname] = {};
+          }
+        });
+  
+        this.arrayShifts.forEach((shift: Shift) => {
+          let dateShift = new Date(shift.date.getFullYear(), shift.date.getMonth(), shift.date.getDate());
+  
+          if((dateShift >= dateStart && dateShift<= dateEnd ) && shift.stateShift == 'completado') {
+            let dateKey = dateShift.getDate() + '/' + (dateShift.getMonth()+1)+ '/' + dateShift.getFullYear();
+  
+            if (!dates[dateKey]) {
+              dates[dateKey] = {};
             }
-          });
   
-          
-          this.arrayShifts.forEach((shift: Shift) => {
-            let dateShift = new Date(shift.date.getFullYear(), shift.date.getMonth(), shift.date.getDate())
-            if((dateShift >= dateStart && dateShift<= dateEnd ) && shift.stateShift == 'completado')
-            {
-              specialistCounts[shift.specialist]++; 
+            if (!dates[dateKey][shift.specialist]) {
+              dates[dateKey][shift.specialist] = 0;
             }
-          });
   
-          let labels = Object.keys(specialistCounts);
-          let values = Object.values(specialistCounts);
-          let colours = Object.keys(specialtistColours);
+            dates[dateKey][shift.specialist]++;
+          }
+        });
   
-        // this.renderChart('pie',labels,values,colours);
-      })
+        let labels = Object.keys(dates);
+        let datasets: any[] = [];
+  
+        users.forEach((specialist: any) => {
+          if (specialist.profile === 'especialista') {
+            let name = specialist.name + ' ' + specialist.surname;
+            let data: number[] = [];
+  
+            labels.forEach((date: string) => {
+              data.push(dates[date][name] || 0);
+            });
+  
+            datasets.push({
+              label: name,
+              data: data,
+              backgroundColor: this.getRandomColor(),
+              borderColor: this.getRandomColor(),
+              borderWidth: 1
+            });
+          }
+        });
+  
+        this.renderChartSpecialist('bar', labels, datasets, "graphicSpecialistShiftCompleted");
+      });
     }
+  }
+
+
+  calculateShiftBySpecialist() {
+    if (this.startDateShift && this.endDateShift) {
+      let dateStart = this.convertDate(this.startDateShift);
+      let dateEnd = this.convertDate(this.endDateShift);
+  
+      this.database.getUsersDatabase().subscribe((users: any) => {
+        let specialistCounts: any = {};
+        let dates: any = {};
+  
+        users.forEach((specialist: any) => {
+          if (specialist.profile === 'especialista') {
+            specialistCounts[specialist.name + ' ' + specialist.surname] = {};
+          }
+        });
+  
+        this.arrayShifts.forEach((shift: Shift) => {
+          let dateShift = new Date(shift.date.getFullYear(), shift.date.getMonth(), shift.date.getDate());
+  
+          if (dateShift >= dateStart && dateShift <= dateEnd) {
+            let dateKey = dateShift.getDate() + '/' + (dateShift.getMonth() + 1)+ '/' + dateShift.getFullYear();
+  
+            if (!dates[dateKey]) {
+              dates[dateKey] = {};
+            }
+  
+            if (!dates[dateKey][shift.specialist]) {
+              dates[dateKey][shift.specialist] = 0;
+            }
+  
+            dates[dateKey][shift.specialist]++;
+          }
+        });
+  
+        let labels = Object.keys(dates);
+        let datasets: any[] = [];
+  
+        users.forEach((specialist: any) => {
+          if (specialist.profile === 'especialista') {
+            let name = specialist.name + ' ' + specialist.surname;
+            let data: number[] = [];
+  
+            labels.forEach((date: string) => {
+              data.push(dates[date][name] || 0);
+            });
+  
+            datasets.push({
+              label: name,
+              data: data,
+              backgroundColor: this.getRandomColor(),
+              borderColor: this.getRandomColor(),
+              borderWidth: 1
+            });
+          }
+        });
+  
+        this.renderChartSpecialist('bar', labels, datasets, "graphicSpecialistShift");
+      });
+    }
+  }
+
+  renderChartSpecialist(type: any, labels: string[], datasets: any[], id : string) {
+    const ctx : any = (document.getElementById(id) as HTMLCanvasElement).getContext('2d');
+
+    if (this.chartsSpecialist[id]) {
+      this.chartsSpecialist[id].destroy();
+    }
+
+    this.chartsSpecialist[id]= new Chart(ctx, {
+      type: type,
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem: any) => {
+                let specialist = tooltipItem.dataset.label;
+                let count = tooltipItem.raw;
+                return `${specialist}: ${count} turno(s)`;
+              }
+            }
+          }
+        }
+      }
+    });
   }
 
 
@@ -231,12 +313,19 @@ export default class StatisticsComponent {
 
 
 
-
-
-
-
-
-
+  updateEndDateMin(idInput : string, start : string) {
+    const endDateInput = document.querySelector(`input[name="${idInput}"]`) as HTMLInputElement;
+    if (endDateInput) {
+      const startDate = new Date(start);
+      const endDate = new Date(endDateInput.value);
+  
+      if (startDate > endDate) {
+        startDate.setDate(startDate.getDate() + 1);
+        endDateInput.value = startDate.toISOString().split('T')[0];
+      }
+  
+    }
+  }
 
 
 
