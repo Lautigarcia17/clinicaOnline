@@ -88,7 +88,7 @@ export default class StatisticsComponent {
       shiftsForDay[nameDays]++;
     });
 
-    labels.shift();
+    // labels.shift();
     let values = Object.values(shiftsForDay);
     this.renderChart('bar',labels,values,'rgba(16, 233, 179)','shiftByDay');
 

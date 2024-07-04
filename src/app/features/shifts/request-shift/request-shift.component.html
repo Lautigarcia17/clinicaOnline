@@ -7,7 +7,7 @@
                         <h2 class="tittle-option">Seleccionar Especialidad</h2>
                         <div class="option-element">
                             @for (item of specialtysCharged; track $index) {
-                                <button  class="btn-specialty" style='background-image: url({{item.img}});' (click)="setSpecialist(item.name)"></button>
+                                <button  class="btn-specialty" style='background-image: url({{item.img}});' (click)="setSpecialist(item.name)">{{item.name | firstCapitalLetter}}</button>
                             }
                             @empty {
                                 <div class="without-element">
@@ -43,12 +43,28 @@
                                 <div class="option-element">
                                     @for (item of globalData.getUsers(); track $index) {
                                         @if (item.profile === 'especialista' && ( item.specialty[0] === (specialtySearched | lowercase) || item.specialty[1] === (specialtySearched | lowercase))) {
-                                            <div class="option-button">
-                                                <button class="btn-specialist" style='background-image: url({{item.img}});' (click)="setDays(item)" [disabled]="!item.workDays.length"></button>
+
+                                            <button class="btn-specialist" style='background-image: url({{item.img}});' (click)="setDays(item)" [disabled]="!item.workDays.length">
                                                 <h4 class="name-specialist">{{item.name | firstCapitalLetter}} {{item.surname | firstCapitalLetter}}</h4>
-                                            </div>
-
-
+                                                <h5 class="age-specialist">{{item.age}} años</h5>
+                                                <hr>
+                                                <div class="col-md-12 work-days-container mt-2">
+                                                    @for (day of item.workDays; track $index) {
+                                                        <div class="work-day-item">{{day}}</div>
+                                                        @if ($index < item.workDays.length - 1) {
+                                                            <div  class="work-day-slash">/</div>
+                                                        }
+                                                    }
+                                                    @empty {
+                                                        <div style="color: red;" class="work-day-item">Sin dias laborales disponibles</div>
+                                                    }
+                                                </div>
+                                                @if (item.workHour.start !=='') {
+                                                    <h6 class="work-hour">{{item.workHour.start.getHours()}}:{{item.workHour.start.getMinutes() | formatDoubleZero}} - 
+                                                        {{item.workHour.end.getHours()}}:{{item.workHour.end.getMinutes() | formatDoubleZero}} 
+                                                    </h6>
+                                                }
+                                            </button>
                                         }
                                     }
                                 </div>

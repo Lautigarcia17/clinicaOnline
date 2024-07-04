@@ -1,7 +1,6 @@
 .content{
     height: 100%;
     width: 100%;
-    /* background-image: linear-gradient(to right bottom, #f9f9f9, #e3e4e8, #cbd0d8, #b2bdc7, #98abb5); */
     background-image: url('https://firebasestorage.googleapis.com/v0/b/clinicaonline-de6c8.appspot.com/o/images%2Frequest.jpg?alt=media&token=616788b0-2759-474d-9309-623d0a586378');
     background-size: cover;
     background-repeat: no-repeat;
@@ -47,11 +46,18 @@
 }
 
 .option-element .btn-specialty{
-    width: 110px;
-    height: 100px;
+    width: 135px;
+    height: 130px;
     border-radius: 75px;
+    background-color: rgba(0, 0, 0, 0.6);
+    background-blend-mode: overlay;
     background-size: cover;
     background-repeat: no-repeat;
+    font-weight: 700;
+    transition: transform .3s ease-in-out;
+    color: beige;
+    font-size: 18px;
+
 }
 
 .option-element .btn-specialty:hover{
@@ -73,23 +79,34 @@
     flex-wrap: wrap;
 }
 .work-day-item {
-    margin-right: 5px; /* Adjust as needed for spacing between items */
-    font-size: 10px;
-    color: white;
+    margin-right: 5px;
+    font-size: 12px;
+    color: aquamarine;
 }
 .work-day-slash {
-    margin-right: 5px; /* Adjust as needed for spacing */
+    margin-right: 5px;
     font-size: 10px;
     color: white;
 }
 
+
+.work-hour{
+    font-size: 12px;
+    color: white;
+}
+
 .option-element .btn-specialist{
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: overlay;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     width: 150px;
     height: 150px;
-    border-radius: 80px;
+    border-radius: 40px;
+    font-weight: 700;
+    transition: transform .3s ease-in-out;
+    z-index: 1;
     margin-top: 10px;
 }
 
@@ -106,13 +123,13 @@
 
 
 .name-specialist{
-    font-size: 18px;
-    color: #27ed94;
+    font-size: 20px;
+    color: white;
     font-weight: 900;
 }
 
 .age-specialist{
-    font-size: 15px;
+    font-size: 13px;
     color: white;
 }
 
@@ -121,7 +138,6 @@
     color: aquamarine;
     margin: 0;
 }
-
 .without-element{
     display: flex;
     align-items: center;

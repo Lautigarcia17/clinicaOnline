@@ -16,9 +16,13 @@ export class PdfService {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
+    try{
+      const imageData = await this.transformImage('../../../assets/clinic.jpg');
+      doc.addImage(imageData, 'PNG', (pageWidth - 50) / 2, 10, 50, 50);
+    }catch(error){
+      console.log(error);
+    }
 
-    const imageData = await this.transformImage('../../../assets/clinic.jpg');
-    doc.addImage(imageData, 'PNG', (pageWidth - 50) / 2, 10, 50, 50);
 
     doc.setFontSize(20);
     doc.setTextColor('#4FC3A1');

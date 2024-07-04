@@ -13,11 +13,12 @@ import { Specialty } from '../../../core/models/specialty';
 import { FormatDatePipe } from '../../../shared/pipes/format-date.pipe';
 import { FormatTimePipe } from '../../../shared/pipes/format-time.pipe';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { FormatDoubleZeroPipe } from '../../../shared/pipes/format-double-zero.pipe';
 
 @Component({
   selector: 'app-request-shift',
   standalone: true,
-  imports: [CommonModule,FormsModule,FirstCapitalLetterPipe,DayNamePipe,FormatDatePipe,FormatTimePipe],
+  imports: [CommonModule,FormsModule,FirstCapitalLetterPipe,DayNamePipe,FormatDatePipe,FormatTimePipe,FormatDoubleZeroPipe],
   templateUrl: './request-shift.component.html',
   styleUrl: './request-shift.component.css',
   animations: [
